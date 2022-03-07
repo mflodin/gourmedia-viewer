@@ -5,6 +5,8 @@ type FoodData = {
   menu: string;
 };
 
+const CACHE_TIME = 60 * 10;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<FoodData[]>
@@ -20,6 +22,7 @@ export default async function handler(
       }
     );
     const data = await response.json();
+    res.setHeader('Cache-Control', `s-maxage=${CACHE_TIME}`)
     res.status(200).json(data.result);
   } catch (err: any) {
     console.log("err", err);
