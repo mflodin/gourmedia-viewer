@@ -1,0 +1,72 @@
+.container {
+  position: absolute;
+  top: 40px;
+  right: 100px;
+  perspective: 150px;
+  filter: drop-shadow(6px 5px 3px #333);
+  animation: animateIn 600ms cubic-bezier(0.175, 0.885, 0.320, 1.275) 300ms backwards;
+  /* , wobble 2s infinite linear alternate; */
+}
+
+.text {
+  text-transform: uppercase;
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  text-shadow: 0px 0px 0 rgb(247, 247, 247), 1px 1px 0 rgb(238, 238, 238),
+    2px 2px 0 rgb(230, 230, 230), 3px 3px 0 rgb(222, 222, 222),
+    4px 4px 3px rgba(0, 0, 0, 0.6), 4px 4px 1px rgba(0, 0, 0, 0.5),
+    0px 0px 3px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%) rotateY(336deg) rotateX(17deg) rotateZ(0deg);
+}
+
+.badge {
+  animation: rotateBadge 30s infinite linear;
+}
+.badge,
+.badge:before,
+.badge:after {
+  width: 6em;
+  height: 6em;
+  content: "";
+  background-color: #FF206E;
+
+  transform: rotateY(336deg) rotateX(17deg) rotateZ(0deg);
+}
+
+.badge:before,
+.badge:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Star shape */
+.badge:before {
+  transform: rotate(60deg);
+}
+.badge:after {
+  transform: rotate(-60deg);
+}
+@keyframes rotateBadge {
+  from {
+    transform: rotateY(336deg) rotateX(17deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateY(336deg) rotateX(17deg) rotateZ(360deg);
+  }
+}
+
+@keyframes animateIn {
+    from {
+        transform: scale(0) translate(-100px, 100px);
+    }
+    to {
+        transform: scale(1);
+    }
+}

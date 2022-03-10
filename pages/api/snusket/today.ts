@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type FoodData = {
+export type FoodData = {
   day: string;
   menu: string;
 };
