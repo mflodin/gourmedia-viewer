@@ -40,11 +40,11 @@
 }
 
 .title {
-  font-family: 'Bee Dee Groovy';
+  font-family: 'Bee Dee Groovy', Arial;
   font-weight: normal;
   color: #41EAD4;
   margin: 0;
-  line-height: 1.15;
+  line-height: 0.8;
   font-size: 8rem;
 }
 
