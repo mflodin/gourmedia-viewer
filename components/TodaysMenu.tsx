@@ -7,12 +7,12 @@ const TodaysMenu = ({ menu }: TodaysMenuProps) => {
   if (!menu) {
     return null;
   }
-  const courses = menu?.split("\n\n");
+  const courses = menu?.split("\n\n").filter((arr) => arr.trim());
 
   return (
     <div>
       {courses.map((course) => {
-        const [header, description] = course.split("\n");
+        const [header, description] = course.trim().split(/\t|\n|\s{3,}/);
         return (
           <div key={header}>
             <h3>{header.trim()}</h3>

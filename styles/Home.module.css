@@ -45,7 +45,7 @@
   color: #41EAD4;
   margin: 0;
   line-height: 0.8;
-  font-size: 8rem;
+  font-size: 6rem;
 }
 
 .title,
@@ -109,6 +109,12 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 8rem;
+  }
 }
 
 @media (max-width: 600px) {
