@@ -6,11 +6,18 @@ interface DividerProps {
 }
 const Divider = ({ direction = "right" }: DividerProps) => {
   return (
-    <span
-      className={clsx(styles.hr, styles.hrAnimate, {
-        [styles.hrAnimateReverse]: direction === "left",
-      })}
-    />
+    <div className={styles.container}>
+      <span
+        className={clsx(styles.item, {
+          [styles.itemReversed]: direction === "left",
+        })}
+      />
+      <span
+        className={clsx(styles.hr, styles.hrAnimate, {
+          [styles.hrAnimateReverse]: direction === "left",
+        })}
+      />
+    </div>
   );
 };
 

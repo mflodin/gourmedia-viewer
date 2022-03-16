@@ -8,7 +8,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 }
 
@@ -62,8 +61,11 @@
   color: #41ead4;
   font-weight: normal;
   font-size: 4rem;
-  margin: 50px 0 10px;
+  margin: 10px 0 30px;
   text-align: center;
+  @media (min-width: 880px) {
+    margin-top: 50px;
+  }
 }
 
 @media (min-width: 600px) {
