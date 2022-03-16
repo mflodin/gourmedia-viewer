@@ -1,0 +1,95 @@
+.card {
+  width: 100%;
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #94d2bd;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 240px;
+
+  &:hover {
+    border-color: #e76f51;
+  }
+
+  @media (max-width: 620px) {
+    max-width: 320px;
+  }
+
+  h2 {
+    font-weight: normal;
+    font-family: "Bee Dee Groovy", Arial;
+    color: #ff206e;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 0;
+  }
+}
+.pastCard {
+  color: #a8a8a8;
+  border-color: #6c757d;
+
+  h2 {
+    color: #909090;
+  }
+  h4 {
+    color: #a8a8a8;
+  }
+
+  display: none;
+
+  @media (min-width: 880px) {
+    display: block;
+  }
+}
+
+.todayCard {
+  position: relative;
+  --border-width: 3px;
+  position: relative;
+  background-color: var(--site-bg-color);
+  border-radius: var(--border-width);
+  border: none;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(
+      60deg,
+      hsl(224, 85%, 66%),
+      hsl(269, 85%, 66%),
+      hsl(314, 85%, 66%),
+      hsl(359, 85%, 66%),
+      hsl(44, 85%, 66%),
+      hsl(89, 85%, 66%),
+      hsl(134, 85%, 66%),
+      hsl(179, 85%, 66%)
+    );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: calc(2 * var(--border-width));
+    animation: moveGradient 6s alternate infinite;
+  }
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 0%;
+  }
+}

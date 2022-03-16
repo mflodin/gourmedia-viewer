@@ -13,6 +13,7 @@ import parseMenu from "../utils/parseMenu";
 import clsx from "clsx";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
+import WeekMenu from "../components/WeekMenu";
 
 const REVALIDATE = 60 * 60 * 2; //2 hour
 export async function getStaticProps() {
@@ -72,27 +73,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         <TodaysMenu dayMenu={todayMenu?.menu} />
         <Divider />
         <h2 className={styles.weekHeader}>Veckans meny</h2>
-        <div className={styles.grid}>
-          {data?.map((foodDay) => {
-            return (
-              <div
-                key={foodDay.day}
-                className={clsx(styles.card, {
-                  [styles.pastCard]: foodDay.isPast,
-                  [styles.todayCard]: foodDay.isToday,
-                })}
-              >
-                <h2>{foodDay.day}</h2>
-                {foodDay.menu.map((course) => (
-                  <React.Fragment key={course.type}>
-                    <h4>{course.type}</h4>
-                    <p>{course.dish}</p>
-                  </React.Fragment>
-                ))}
-              </div>
-            );
-          })}
-        </div>
+        <WeekMenu className={styles.grid} menu={data} />
       </main>
       <Divider direction="left" />
       <Footer />

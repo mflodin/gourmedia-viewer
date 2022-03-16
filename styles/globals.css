@@ -1,6 +1,7 @@
 :root {
   --site-bg-color: #10111F;
-  --site-default-color: #fff
+  --site-default-color: #fff;
+  --text-color: #e9e9e9;
   /* //#10111F; */
 }
 @font-face {
@@ -16,8 +17,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
 }
 
 body {
@@ -30,7 +30,7 @@ a {
   text-decoration: none;
 }
 p {
-  color: var(--site-default-color)
+  color: var(--text-color)
 }
 
 h3, h4 {
