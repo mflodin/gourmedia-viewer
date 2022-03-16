@@ -1,0 +1,289 @@
+.container {
+  padding: 0 2rem;
+}
+
+.main {
+  min-height: 91vh;
+  padding: 2rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.title {
+  font-family: "Bee Dee Groovy", Arial;
+  font-weight: normal;
+  color: #41ead4;
+  margin: 0;
+  line-height: 0.8;
+  font-size: 6rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.weekHeader {
+  font-family: "Bee Dee Groovy", Arial;
+  color: #41ead4;
+  font-weight: normal;
+  font-size: 4rem;
+  margin: 50px 0 10px;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #94d2bd;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 240px;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  border-color: #e76f51;
+}
+
+.card h2 {
+  font-weight: normal;
+  font-family: "Bee Dee Groovy", Arial;
+  color: #ff206e;
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+}
+
+.card h4 {
+  margin: 0 0 0.5rem 0;
+}
+
+.card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 0;
+}
+
+.pastCard,
+.pastCard p {
+  color: #a8a8a8;
+  border-color: #6c757d;
+}
+
+.pastCard h2 {
+  color: #909090;
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.todayCard {
+  position: relative;
+  --border-width: 3px;
+  position: relative;
+  background-color: var(--site-bg-color);
+  border-radius: var(--border-width);
+  border: none;
+}
+
+.todayCard::before {
+  position: absolute;
+  content: "";
+  top: calc(-1 * var(--border-width));
+  left: calc(-1 * var(--border-width));
+  z-index: -1;
+  width: calc(100% + var(--border-width) * 2);
+  height: calc(100% + var(--border-width) * 2);
+  background: linear-gradient(
+    60deg,
+    hsl(224, 85%, 66%),
+    hsl(269, 85%, 66%),
+    hsl(314, 85%, 66%),
+    hsl(359, 85%, 66%),
+    hsl(44, 85%, 66%),
+    hsl(89, 85%, 66%),
+    hsl(134, 85%, 66%),
+    hsl(179, 85%, 66%)
+  );
+  background-size: 300% 300%;
+  background-position: 0 50%;
+  border-radius: calc(2 * var(--border-width));
+  animation: moveGradient 6s alternate infinite;
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 0%;
+  }
+}
+$barsize: 20px;
+
+.hr {
+  width: calc(100% + 4rem);
+  height: 1px;
+  display: block;
+  position: relative;
+  margin-bottom: 0em;
+  padding: 2em 0;
+
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+
+    width: 100%;
+    height: 1px;
+    bottom: 50%;
+    left: 0;
+  }
+
+  &:before {
+    background: linear-gradient(
+      90deg,
+      var(--site-bg-color) 0%,
+      var(--site-bg-color) 50%,
+      transparent 50%,
+      transparent 100%
+    );
+    background-size: $barsize;
+    background-position: center;
+    z-index: 1;
+  }
+
+  &:after {
+    transition: opacity 0.3s ease, animation 0.3s ease;
+
+    background: linear-gradient(
+      to right,
+      #62efab 5%,
+      #f2ea7d 15%,
+      #f2ea7d 25%,
+      #ff8797 35%,
+      #ff8797 45%,
+      #e1a4f4 55%,
+      #e1a4f4 65%,
+      #82fff4 75%,
+      #82fff4 85%,
+      #62efab 95%
+    );
+
+    background-size: 200%;
+    background-position: 0%;
+    animation: bar 10s linear infinite;
+  }
+}
+
+.hrAnimate {
+  &:before {
+    background: linear-gradient(
+      90deg,
+      var(--site-bg-color) 0%,
+      var(--site-bg-color) 5%,
+      transparent 5%,
+      transparent 10%,
+      var(--site-bg-color) 10%,
+      var(--site-bg-color) 15%,
+      transparent 15%,
+      transparent 20%,
+      var(--site-bg-color) 20%,
+      var(--site-bg-color) 25%,
+      transparent 25%,
+      transparent 30%,
+      var(--site-bg-color) 30%,
+      var(--site-bg-color) 35%,
+      transparent 35%,
+      transparent 40%,
+      var(--site-bg-color) 40%,
+      var(--site-bg-color) 45%,
+      transparent 45%,
+      transparent 50%,
+      var(--site-bg-color) 50%,
+      var(--site-bg-color) 55%,
+      transparent 55%,
+      transparent 60%,
+      var(--site-bg-color) 60%,
+      var(--site-bg-color) 65%,
+      transparent 65%,
+      transparent 70%,
+      var(--site-bg-color) 70%,
+      var(--site-bg-color) 75%,
+      transparent 75%,
+      transparent 80%,
+      var(--site-bg-color) 80%,
+      var(--site-bg-color) 85%,
+      transparent 85%,
+      transparent 90%,
+      var(--site-bg-color) 90%,
+      var(--site-bg-color) 95%,
+      transparent 95%,
+      transparent 100%
+    );
+
+    background-size: $barsize * 10;
+    background-position: center;
+    z-index: 1;
+
+    animation: bar 120s linear infinite;
+  }
+}
+
+.hrAnimateReverse {
+  &:before {
+    animation: barReversed 120s linear infinite;
+  }
+}
+@keyframes bar {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+@keyframes barReversed {
+  0% {
+    background-position: 200%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}

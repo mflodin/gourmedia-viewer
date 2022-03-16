@@ -5,12 +5,13 @@ import { useCurrentDay } from "../hooks/useCurrentDay";
 import { useMenu } from "../hooks/useMenu";
 import { useTodaysMenu } from "../hooks/useTodaysMenu";
 import { fetchMenu } from "../services/fetchMenu";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.scss";
 import SpinningBadge from "../components/SpinningBadge";
 import TodaysMenu from "../components/TodaysMenu";
 import { Menu } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
 import clsx from "clsx";
+import Footer from "../components/Footer";
 
 const REVALIDATE = 60 * 60 * 2; //2 hour
 export async function getStaticProps() {
@@ -70,7 +71,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         </h1>
         <SpinningBadge />
         <TodaysMenu dayMenu={todayMenu?.menu} />
-
+        <span className={clsx(styles.hr, styles.hrAnimate)} />
         <h2 className={styles.weekHeader}>Veckans meny</h2>
         <div className={styles.grid}>
           {data?.map((foodDay) => {
@@ -94,18 +95,8 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
           })}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        made with{" "}
-        <span
-          style={{
-            margin: "0 10px 0 5px",
-          }}
-        >
-          💖
-        </span>
-        by r0ss
-      </footer>
+      <span className={clsx(styles.hr, styles.hrAnimate, styles.hrAnimateReverse)} />
+      <Footer />
     </div>
   );
 };
