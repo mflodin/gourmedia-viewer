@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./SpinningBadge.module.css";
+import styles from "./SpinningBadge.module.scss";
 
 const TEXT_PHRASES = ["So nice!", "So fresh!", "So yummy!", "So wow!", "So great!", "So good!"];
 

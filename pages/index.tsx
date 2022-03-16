@@ -12,6 +12,7 @@ import { Menu } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
 import clsx from "clsx";
 import Footer from "../components/Footer";
+import Divider from "../components/Divider";
 
 const REVALIDATE = 60 * 60 * 2; //2 hour
 export async function getStaticProps() {
@@ -21,7 +22,6 @@ export async function getStaticProps() {
   } catch (err) {
     throw new Error(`Failed to fetch menu: ${err}`);
   }
-  console.log(parseMenu(menu));
   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
 }
 
@@ -30,7 +30,6 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const { todayMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
 
-  console.log(data);
   return (
     <div className={styles.container}>
       <Head>
@@ -71,7 +70,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         </h1>
         <SpinningBadge />
         <TodaysMenu dayMenu={todayMenu?.menu} />
-        <span className={clsx(styles.hr, styles.hrAnimate)} />
+        <Divider />
         <h2 className={styles.weekHeader}>Veckans meny</h2>
         <div className={styles.grid}>
           {data?.map((foodDay) => {
@@ -95,7 +94,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
           })}
         </div>
       </main>
-      <span className={clsx(styles.hr, styles.hrAnimate, styles.hrAnimateReverse)} />
+      <Divider direction="left" />
       <Footer />
     </div>
   );
