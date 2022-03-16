@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Bee Dee Groovy';
-  src: url('/fonts/BeeDeeGroovy-Regular.woff2') format('woff2'),
-      url('/fonts/BeeDeeGroovy-Regular.woff') format('woff');
+  font-family: "Bee Dee Groovy";
+  src: url("/fonts/BeeDeeGroovy-Regular.woff2") format("woff2"),
+    url("/fonts/BeeDeeGroovy-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -13,7 +13,10 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: #FFED65;
+}
+
+body {
+  background-color: #ffed65;
 }
 
 a {
@@ -21,7 +24,7 @@ a {
   text-decoration: none;
 }
 p {
-  color: #50514F;
+  color: #50514f;
 }
 
 * {

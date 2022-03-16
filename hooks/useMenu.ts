@@ -1,13 +1,22 @@
 import { useQuery } from "react-query";
-import { FoodData } from "../pages/api/snusket/today";
 import { fetchMenu } from "../services/fetchMenu";
+import { Menu } from "../types/Menu";
+import parseMenu from "../utils/parseMenu";
 import { useCurrentDay } from "./useCurrentDay";
 
-export const useMenu = (initialData?: FoodData[]) => {
+export const useMenu = (initialData?: Menu[]) => {
   const { weekStartDate } = useCurrentDay();
-  return useQuery<FoodData[], Error>(["menu", weekStartDate], fetchMenu, {
-    initialData,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  });
+  return useQuery<Menu[], Error>(
+    ["menu", weekStartDate],
+    async () => {
+      const foodData = await fetchMenu();
+
+      return parseMenu(foodData);
+    },
+    {
+      initialData,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 };

@@ -40,9 +40,9 @@
 }
 
 .title {
-  font-family: 'Bee Dee Groovy', Arial;
+  font-family: "Bee Dee Groovy", Arial;
   font-weight: normal;
-  color: #41EAD4;
+  color: #41ead4;
   margin: 0;
   line-height: 0.8;
   font-size: 6rem;
@@ -76,13 +76,21 @@
   /* max-width: 800px; */
 }
 
+.weekHeader {
+  font-family: "Bee Dee Groovy", Arial;
+  color: #41ead4;
+  font-weight: normal;
+  font-size: 4rem;
+  margin: 50px 0 10px;
+}
+
 .card {
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 1px solid #94d2bd;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 240px;
@@ -91,24 +99,35 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  border-color: #e76f51;
 }
 
 .card h2 {
-  margin: 0 0 1rem 0;
+  font-weight: normal;
+  font-family: "Bee Dee Groovy", Arial;
+  color: #e76f51;
+  margin: 0 0 1.5rem 0;
   font-size: 1.5rem;
 }
 
-.card p {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
+.card h4 {
+  margin: 0 0 0.5rem 0;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 0;
+}
+
+.pastCard,
+.pastCard p {
+  color: #a8a8a8;
+  border-color: #6c757d;
+}
+
+.pastCard h2 {
+  color: #909090;
 }
 
 @media (min-width: 600px) {
@@ -121,5 +140,45 @@
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+}
+
+.todayCard {
+  position: relative;
+  --border-width: 3px;
+  position: relative;
+  background-color: #ffed65;
+  border-radius: var(--border-width);
+  border: none;
+}
+
+.todayCard::before {
+  position: absolute;
+  content: "";
+  top: calc(-1 * var(--border-width));
+  left: calc(-1 * var(--border-width));
+  z-index: -1;
+  width: calc(100% + var(--border-width) * 2);
+  height: calc(100% + var(--border-width) * 2);
+  background: linear-gradient(
+    60deg,
+    hsl(224, 85%, 66%),
+    hsl(269, 85%, 66%),
+    hsl(314, 85%, 66%),
+    hsl(359, 85%, 66%),
+    hsl(44, 85%, 66%),
+    hsl(89, 85%, 66%),
+    hsl(134, 85%, 66%),
+    hsl(179, 85%, 66%)
+  );
+  background-size: 300% 300%;
+  background-position: 0 50%;
+  border-radius: calc(2 * var(--border-width));
+  animation: moveGradient 6s alternate infinite;
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 0%;
   }
 }

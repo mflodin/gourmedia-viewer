@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./SpinningBadge.module.css";
 
-const TEXT_PHRASES = ["So nice!", "So fresh!", "So yummy!", "So wow!", "So collab!", "So EDX!", "So SVT!"];
+const TEXT_PHRASES = ["So nice!", "So fresh!", "So yummy!", "So wow!", "So great!", "So good!"];
 
 const SpinningBadge = () => {
   const [starText, setStarText] = React.useState("");
