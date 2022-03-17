@@ -9,5 +9,5 @@ jobs:
       - name: Get menu data
         run: |
           curl --request POST \
-          --url 'https://snusket.vercel.com/api/job' \
+          --url 'https://snusket.vercel.app/api/job' \
           --header 'Authorization: ${{ secrets.API_SECRET_KEY }}'
