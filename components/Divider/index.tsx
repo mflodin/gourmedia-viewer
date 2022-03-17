@@ -4,25 +4,59 @@ import styles from "./Divider.module.scss";
 
 type Item = {
   id: string;
-  image: string;
-  top: string;
+  style: {
+    [key: string]: string;
+  };
 };
 
 const RUNING_ITEMS = [
   {
-    id: "nyancat",
-    top: "-24px",
-    image: "/images/nyancat.svg",
+    id: "sushi",
+    style: {
+      top: "-9px",
+      backgroundImage: "url(/images/sushi.gif)",
+      height: "46px",
+    },
   },
   {
-    id: "nyancat2",
-    top: "-24px",
-    image: "/images/nyancat.svg",
+    id: "pizza",
+    style: {
+      top: "3px",
+      backgroundImage: "url(/images/pizza.gif)",
+      height: "40px",
+    },
   },
   {
-    id: "nyancat3",
-    top: "-24px",
-    image: "/images/nyancat.svg",
+    id: "cake",
+    style: {
+      top: "-9px",
+      backgroundImage: "url(/images/cake.gif)",
+      height: "40px",
+    },
+  },
+  {
+    id: "noodles",
+    style: {
+      top: "-13px",
+      backgroundImage: "url(/images/noodles.gif)",
+      height: "50px",
+    },
+  },
+  {
+    id: "burger-bounce",
+    style: {
+      top: "-30px",
+      backgroundImage: "url(/images/burger-bounce.gif)",
+      height: "60px",
+    },
+  },
+  {
+    id: "pusheen2",
+    style: {
+      top: "-24px",
+      backgroundImage: "url(/images/pusheen.gif)",
+      height: "60px",
+    },
   },
 ] as Item[];
 
@@ -56,10 +90,7 @@ const Divider = ({ direction = "right" }: DividerProps) => {
           className={clsx(styles.item, {
             [styles.itemReversed]: direction === "left",
           })}
-          style={{
-            top: item.top,
-            backgroundImage: `url("${item.image}")`,
-          }}
+          style={{ ...item.style }}
         />
       ))}
       {/* <span

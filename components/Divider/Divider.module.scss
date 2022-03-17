@@ -125,6 +125,7 @@ $barsize: 36px;
   background-size: contain;
   display: block;
   animation: runningFood 60s linear infinite;
+  z-index: 10;
 }
 
 .itemReversed {
