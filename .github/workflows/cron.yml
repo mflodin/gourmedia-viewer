@@ -1,0 +1,13 @@
+name: 12-hours-cron
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get menu data
+        run: |
+          curl --request POST \
+          --url 'https://snusket.vercel.com/api/job' \
+          --header 'Authorization: ${{ secrets.API_SECRET_KEY }}'
