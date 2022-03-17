@@ -113,27 +113,28 @@ $barsize: 20px;
 }
 
 .item {
-  position: relative;
-  top: 32px;
-  background-image: url("/apple-touch-icon.png");
+  position: absolute;
+  // top: 54px;
+  left: 0;
+  // background-image: url("/images/nyancat.svg");
   // width: calc(100% + 4rem);
   width: 100%;
-  height: 40px;
+  height: 80px;
   background-repeat: no-repeat;
   background-position: left;
   background-size: contain;
   display: block;
-  animation: bar 120s linear infinite;
+  animation: runningFood 60s linear infinite;
 }
 
 .itemReversed {
   background-position: right;
-  animation: barReversed 120s linear infinite;
+  transform: scaleX(-1);
 }
 
 .hrAnimateReverse {
   &:before {
-    animation: barReversed 120s linear infinite;
+    transform: scaleX(-1)
   }
 }
 @keyframes bar {
@@ -145,11 +146,11 @@ $barsize: 20px;
   }
 }
 
-@keyframes barReversed {
+@keyframes runningFood {
   0% {
-    background-position: 200%;
+    background-position: calc(0% - 200px);
   }
   100% {
-    background-position: 0%;
+    background-position: calc(100% + 200px);
   }
 }
