@@ -115,16 +115,16 @@ $barsize: 36px;
 .item {
   position: absolute;
   // top: 54px;
-  left: 0;
+  left: -90px;
   // background-image: url("/images/nyancat.svg");
   // width: calc(100% + 4rem);
-  width: 100%;
+  width: calc(100% + 90px);
   height: 80px;
   background-repeat: no-repeat;
   background-position: left;
   background-size: contain;
   display: block;
-  animation: runningFood 60s linear infinite;
+  animation: runningFood 60s linear;
   z-index: 10;
 }
 

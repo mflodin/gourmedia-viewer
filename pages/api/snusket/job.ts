@@ -24,7 +24,10 @@ export default async function handler(
 ) {
   const auth = req.headers.authorization;
 
-  if (process.env.NODE_ENV === "development" || auth === process.env.API_SECRET_KEY) {
+  if (
+    process.env.NODE_ENV === "development" ||
+    (req.method === "POST" && auth === process.env.API_SECRET_KEY)
+  ) {
     try {
       console.log("Fetching...");
       const browser = (await (process.env.AWS_LAMBDA_FUNCTION_VERSION
