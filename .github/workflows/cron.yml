@@ -10,4 +10,5 @@ jobs:
         run: |
           curl --request POST \
           --url 'https://snusket.vercel.app/api/snusket/job' \
-          --header 'Authorization: ${{ secrets.API_SECRET_KEY }}'
+          --header 'Authorization: ${{ secrets.API_SECRET_KEY }}' \
+          -o /dev/null -s -w "%{http_code}\n"
