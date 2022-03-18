@@ -32,7 +32,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const { data } = useMenu(menuInitData);
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
@@ -77,7 +77,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
       </main>
       <Divider direction="left" />
       <Footer />
-    </div>
+    </>
   );
 };
 
