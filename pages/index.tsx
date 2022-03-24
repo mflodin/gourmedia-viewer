@@ -31,13 +31,14 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const { data } = useMenu(menuInitData);
 
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
           name="description"
           content="Veckans mat på en bra lunchrestaurang"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
         <link
           rel="preload"
           href="/fonts/BeeDeeGroovy-Regular.woff2"
@@ -76,7 +77,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
       </main>
       <Divider direction="left" />
       <Footer />
-    </>
+    </div>
   );
 };
 
