@@ -1,7 +1,9 @@
-$barsize: 20px;
 .container {
   position: relative;
   width: calc(100% + 4rem);
+  @media (min-width: 490px) {
+    --divider-bar-size: 20px;
+  }
 }
 
 .hr {
@@ -31,7 +33,7 @@ $barsize: 20px;
       transparent 50%,
       transparent 100%
     );
-    background-size: $barsize;
+    background-size: var(--divider-bar-size);
     background-position: center;
     z-index: 1;
   }
@@ -105,7 +107,7 @@ $barsize: 20px;
       transparent 100%
     );
 
-    background-size: $barsize * 10;
+    background-size: calc(var(--divider-bar-size) * 20);
     background-position: center;
     z-index: 1;
 
@@ -136,7 +138,7 @@ $barsize: 20px;
 
 .hrAnimateReverse {
   &:before {
-    transform: scaleX(-1)
+    transform: scaleX(-1);
   }
 }
 @keyframes bar {

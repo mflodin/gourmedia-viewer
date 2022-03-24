@@ -114,11 +114,6 @@ const Divider = ({ direction = "right" }: DividerProps) => {
           style={{ ...item.style }}
         />
       ))}
-      {/* <span
-        className={clsx(styles.item, {
-          [styles.itemReversed]: direction === "left",
-        })}
-      /> */}
       <span
         className={clsx(styles.hr, styles.hrAnimate, {
           [styles.hrAnimateReverse]: direction === "left",
