@@ -1,8 +1,9 @@
-$barsize: 36px;
+$barsize: 20px;
 .container {
   position: relative;
   width: calc(100% + 4rem);
 }
+
 .hr {
   width: 100%;
   height: 1px;
@@ -108,7 +109,7 @@ $barsize: 36px;
     background-position: center;
     z-index: 1;
 
-    animation: bar 120s linear infinite;
+    animation: bar var(--divider-anim-speed) linear infinite;
   }
 }
 
@@ -124,7 +125,7 @@ $barsize: 36px;
   background-position: left;
   background-size: contain;
   display: block;
-  animation: runningFood 60s linear;
+  animation: runningFood var(--divider-anim-speed) linear;
   z-index: 10;
 }
 

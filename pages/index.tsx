@@ -10,7 +10,6 @@ import SpinningBadge from "../components/SpinningBadge";
 import TodaysMenu from "../components/TodaysMenu";
 import { Menu } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
-import clsx from "clsx";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";

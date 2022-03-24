@@ -1,6 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import styles from "./Divider.module.scss";
+import { useWindowSize } from "../../hooks/useWindowResize";
 
 type Item = {
   id: string;
@@ -65,6 +66,26 @@ interface DividerProps {
 }
 const Divider = ({ direction = "right" }: DividerProps) => {
   const [items, setItems] = React.useState<Item[]>([RUNING_ITEMS[0]]);
+
+  const windowSize = useWindowSize();
+
+  React.useEffect(() => {
+    if (windowSize.width) {
+      const speed = Math.max(Math.floor((windowSize.width / 120)), 6);
+      console.log(speed);
+      document.documentElement.style.setProperty(
+        "--divider-anim-speed",
+        `${15}s`
+      );
+
+      document.documentElement.style.setProperty(
+        "--divider-food-anim-speed",
+        `${speed/2}s`
+      );
+
+      
+    }
+  }, [windowSize]);
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
