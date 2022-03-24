@@ -71,11 +71,11 @@ const Divider = ({ direction = "right" }: DividerProps) => {
 
   React.useEffect(() => {
     if (windowSize.width) {
-      const speed = Math.max(Math.floor((windowSize.width / 120)), 6);
+      const speed = Math.max(Math.floor((windowSize.width / 30)), 6);
       console.log(speed);
       document.documentElement.style.setProperty(
         "--divider-anim-speed",
-        `${15}s`
+        `${speed}s`
       );
 
       document.documentElement.style.setProperty(
@@ -99,7 +99,7 @@ const Divider = ({ direction = "right" }: DividerProps) => {
 
         return [...newItems];
       });
-    }, 20000);
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
