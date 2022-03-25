@@ -44,6 +44,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
           href="/fonts/BeeDeeGroovy-Regular.woff2"
           as="font"
           type="font/woff2"
+          crossOrigin="anonymous"
         />
         <link
           rel="apple-touch-icon"
