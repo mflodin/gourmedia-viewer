@@ -13,6 +13,7 @@ import parseMenu from "../utils/parseMenu";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
+import clsx from "clsx";
 
 const REVALIDATE = 60 * 60 * 2; //2 hour
 export async function getStaticProps() {
@@ -38,7 +39,10 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
           name="description"
           content="Veckans mat på en bra lunchrestaurang"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1"
+        />
         <link
           rel="preload"
           href="/fonts/BeeDeeGroovy-Regular.woff2"
@@ -66,15 +70,21 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
-      <main className={styles.main}>
+      <main className={clsx(styles.main, {
+        [styles.weekend]: today.isWeekend
+      })}>
         <h1 className={styles.title}>
           {today.isWeekend ? "Idag är det stängt!" : "Dagens meny"}
         </h1>
-        <SpinningBadge />
-        <TodaysMenu dayMenu={todayMenu?.menu} />
-        <Divider />
-        <h2 className={styles.weekHeader}>Veckans meny</h2>
-        <WeekMenu className={styles.grid} menu={data} />
+        {!today.isWeekend && (
+          <>
+            <SpinningBadge />
+            <TodaysMenu dayMenu={todayMenu?.menu} />
+            <Divider />
+            <h2 className={styles.weekHeader}>Veckans meny</h2>
+            <WeekMenu className={styles.grid} menu={data} />
+          </>
+        )}
       </main>
       <Divider direction="left" />
       <Footer />
