@@ -59,6 +59,54 @@ const RUNING_ITEMS = [
       height: "60px",
     },
   },
+  {
+    id: "sushi2",
+    style: {
+      top: "-9px",
+      backgroundImage: "url(/images/sushi.gif)",
+      height: "46px",
+    },
+  },
+  {
+    id: "pizza2",
+    style: {
+      top: "3px",
+      backgroundImage: "url(/images/pizza.gif)",
+      height: "40px",
+    },
+  },
+  {
+    id: "cake2",
+    style: {
+      top: "-9px",
+      backgroundImage: "url(/images/cake.gif)",
+      height: "40px",
+    },
+  },
+  {
+    id: "noodles2",
+    style: {
+      top: "-13px",
+      backgroundImage: "url(/images/noodles.gif)",
+      height: "50px",
+    },
+  },
+  {
+    id: "burger-bounce2",
+    style: {
+      top: "-30px",
+      backgroundImage: "url(/images/burger-bounce.gif)",
+      height: "60px",
+    },
+  },
+  {
+    id: "pusheen22",
+    style: {
+      top: "-24px",
+      backgroundImage: "url(/images/pusheen.gif)",
+      height: "60px",
+    },
+  },
 ] as Item[];
 
 interface DividerProps {
