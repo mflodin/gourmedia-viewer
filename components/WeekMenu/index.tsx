@@ -9,7 +9,6 @@ interface WeekMenuProps {
     showAllWeek?: boolean;
 }
 const WeekMenu:React.FC<WeekMenuProps> = ({ menu, className, showAllWeek = false }) => {
-  console.log('showAllWeek', showAllWeek)
   return (
     <div className={className}>
       {menu?.map((foodDay) => {
