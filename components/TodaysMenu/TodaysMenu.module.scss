@@ -1,19 +1,25 @@
 .container {
-    margin: 3rem;
+  margin: 3rem;
+  h3 {
+    font-family: "Bee Dee Groovy", Arial;
+    font-weight: normal;
+    color: #ff206e;
+    margin: 0 0 0.5rem;
+    font-size: 40px;
+  }
+  p {
+    margin: 0;
+    color: #f7fbbc;
+    font-size: 18px;
+  }
+
+  @media (min-width: 400px) {
     h3 {
-        font-family: "Bee Dee Groovy", Arial;
-        font-weight: normal;
-        color: #ff206e;
-        margin: 0 0 0.5rem;
-        font-size: 50px;
+      font-size: 50px;
     }
-    p {
-        margin: 0;
-        color: #f7fbbc;
-        font-size: 18px;
-    }
+  }
 }
 
 .course {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }

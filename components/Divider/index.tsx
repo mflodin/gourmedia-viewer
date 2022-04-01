@@ -120,7 +120,6 @@ const Divider = ({ direction = "right" }: DividerProps) => {
   React.useEffect(() => {
     if (windowSize.width) {
       const speed = Math.max(Math.floor((windowSize.width / 30)), 6);
-      console.log(speed);
       document.documentElement.style.setProperty(
         "--divider-anim-speed",
         `${speed}s`
