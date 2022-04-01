@@ -2,7 +2,7 @@ import Redis from "ioredis";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Browser } from "puppeteer-core";
 
-let redisClient = new Redis(process.env.REDIS_URL);
+let redisClient = new Redis(process.env.REDIS_URL || "");
 
 let chrome = {} as any;
 let puppeteer: any;
