@@ -27,6 +27,7 @@ export async function getStaticProps() {
 }
 
 const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
+  const [showAllWeek, setShowAllWeek] = React.useState(false);
   const today = useCurrentDay();
   const { todayMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
@@ -70,9 +71,11 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
-      <main className={clsx(styles.main, {
-        [styles.weekend]: today.isWeekend
-      })}>
+      <main
+        className={clsx(styles.main, {
+          [styles.weekend]: today.isWeekend,
+        })}
+      >
         <h1 className={styles.title}>
           {today.isWeekend ? "Idag är det stängt!" : "Dagens meny"}
         </h1>
@@ -82,7 +85,19 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
             <TodaysMenu dayMenu={todayMenu?.menu} />
             <Divider />
             <h2 className={styles.weekHeader}>Veckans meny</h2>
-            <WeekMenu className={styles.grid} menu={data} />
+            <button
+              className={clsx(styles.toggleWeekButton, {
+                [styles["toggleWeekButton--close"]]: showAllWeek
+              })}
+              onClick={() => setShowAllWeek((show) => !show)}
+            >
+              {showAllWeek ? "Dölj tidigare" : "Visa hela veckan"}
+            </button>
+            <WeekMenu
+              className={styles.grid}
+              menu={data}
+              showAllWeek={showAllWeek}
+            />
           </>
         )}
       </main>

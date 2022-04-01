@@ -72,6 +72,49 @@
   }
 }
 
+.toggleWeekButton {
+  display: block;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  &::before {
+    content: "";
+    background-image: url("/images/arrow-up.svg");
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto 8px;
+  }
+
+  @media (min-width: 880px) {
+    display: none;
+  }
+}
+
+.toggleWeekButton--close::before {
+  transform: rotate(180deg)
+}
+
 @media (min-width: 600px) {
   .title {
     font-size: 8rem;

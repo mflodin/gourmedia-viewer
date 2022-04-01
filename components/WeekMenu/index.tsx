@@ -6,8 +6,10 @@ import styles from "./WeekMenu.module.scss";
 interface WeekMenuProps {
     menu?: Menu[]
     className?: string;
+    showAllWeek?: boolean;
 }
-const WeekMenu:React.FC<WeekMenuProps> = ({ menu, className }) => {
+const WeekMenu:React.FC<WeekMenuProps> = ({ menu, className, showAllWeek = false }) => {
+  console.log('showAllWeek', showAllWeek)
   return (
     <div className={className}>
       {menu?.map((foodDay) => {
@@ -17,6 +19,7 @@ const WeekMenu:React.FC<WeekMenuProps> = ({ menu, className }) => {
             className={clsx(styles.card, {
               [styles.pastCard]: foodDay.isPast,
               [styles.todayCard]: foodDay.isToday,
+              [styles.showInMobile]: showAllWeek
             })}
           >
             <h2>{foodDay.day}</h2>
