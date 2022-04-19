@@ -6,7 +6,7 @@ export default function parseMenu(weekMenu: FoodData[]): Menu[] {
   const today = getDay(new Date()) - 1;
 
   return weekMenu.map((dayMenu, idx) => {
-    const courses = dayMenu.menu?.split("\n\n").filter((arr) => arr.trim());
+    const courses = dayMenu.menu?.split(/\n(.*)\n/).filter((arr) => arr.trim());
     return {
       day: dayMenu.day,
       isPast: idx < today,
