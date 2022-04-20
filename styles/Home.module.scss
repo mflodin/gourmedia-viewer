@@ -50,14 +50,9 @@
   justify-content: center;
   flex-wrap: wrap;
 
-  // @media (min-width: 880px) {
-  //   justify-content: flex-start;
-  // }
-
-  // @media (max-width: 600px) {
-  //   width: 100%;
-  //   flex-direction: column;
-  // }
+  @media (min-width: 1280px) {
+    flex-wrap: nowrap;
+  }
 }
 
 .weekHeader {
