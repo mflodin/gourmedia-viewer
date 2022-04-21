@@ -47,7 +47,10 @@ export default async function handler(
       const navigationPromise = page.waitForNavigation();
 
       await page.goto(
-        "https://www.iss-menyer.se/restaurants/restaurang-gourmedia"
+        "https://www.iss-menyer.se/restaurants/restaurang-gourmedia",
+        {
+          timeout: 0,
+        }
       );
       await page.setViewport({ width: 1440, height: 744 });
       await navigationPromise;
