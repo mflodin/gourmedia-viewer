@@ -15,7 +15,7 @@ import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
 import clsx from "clsx";
 
-const REVALIDATE = 60 * 60 * 2; //2 hour
+const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
   let menu;
   try {
