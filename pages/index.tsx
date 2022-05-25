@@ -14,6 +14,7 @@ import Footer from "../components/Footer";
 import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
 import clsx from "clsx";
+import Script from "next/script";
 
 const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
@@ -33,6 +34,19 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const { data } = useMenu(menuInitData);
   return (
     <div className={styles.container}>
+       <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-D9Z0VSN5MY"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-D9Z0VSN5MY');
+        `}
+        </Script>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
