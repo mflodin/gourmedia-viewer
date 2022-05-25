@@ -35,7 +35,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   return (
     <div className={styles.container}>
        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-D9Z0VSN5MY"
+          src="https://www.googletagmanager.com/gtag/js?id=G-6Y67FX2WT8"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -44,7 +44,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
         
-          gtag('config', 'G-D9Z0VSN5MY');
+          gtag('config', 'G-6Y67FX2WT8');
         `}
         </Script>
       <Head>
