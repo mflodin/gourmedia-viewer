@@ -11,8 +11,12 @@ export default function parseMenu(weekMenu: FoodData[]): Menu[] {
       day: dayMenu.day,
       isPast: idx < today,
       isToday: today === idx,
-      menu: courses.map((course) => {
-        const [header, description] = course.trim().split(/\t|\n|\s{3,}/);
+      menu: courses.map((course, courseIdx) => {
+        let [header, description] = course.trim().split(/\t|\n|\s{3,}/);
+        if (!description) {
+          description = header;
+          header = `Maträtt ${courseIdx + 1}`;
+        }
         return {
           type: header || "",
           dish: description || "",
