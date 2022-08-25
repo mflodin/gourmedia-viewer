@@ -8,7 +8,7 @@ import { fetchMenu } from "../services/fetchMenu";
 import styles from "../styles/Home.module.scss";
 import SpinningBadge from "../components/SpinningBadge";
 import TodaysMenu from "../components/TodaysMenu";
-import { Menu } from "../types/Menu";
+import { FoodData, Menu } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
@@ -21,9 +21,13 @@ export async function getStaticProps() {
   let menu;
   try {
     menu = await fetchMenu();
+    if (typeof menu === 'string') {
+      menu = JSON.parse(menu);
+    }
   } catch (err) {
     throw new Error(`Failed to fetch menu: ${err}`);
   }
+  
   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
 }
 

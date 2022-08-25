@@ -1,9 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
-export type FoodData = {
-  day: string;
-  menu: string;
-};
+import { FoodData } from "../../../types/Menu";
 
 const CACHE_TIME = 60 * 10;
 

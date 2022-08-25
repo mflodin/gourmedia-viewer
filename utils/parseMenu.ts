@@ -1,10 +1,9 @@
 import { getDay } from "date-fns";
-import { FoodData } from "../pages/api/snusket/today";
-import { Menu } from "../types/Menu";
+import { FoodData, Menu } from "../types/Menu";
 
 export default function parseMenu(weekMenu: FoodData[]): Menu[] {
   const today = getDay(new Date()) - 1;
-
+  
   return weekMenu.map((dayMenu, idx) => {
     const courses = dayMenu.menu?.split(/\n(.*)\n/).filter((arr) => arr.trim());
     return {

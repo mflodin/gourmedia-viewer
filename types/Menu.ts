@@ -9,3 +9,8 @@ export interface Menu {
   day: string;
   menu: DayMenu[];
 }
+
+export type FoodData = {
+  day: string;
+  menu: string;
+};
