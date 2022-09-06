@@ -1,9 +1,9 @@
 .heart {
   position: relative;
   animation: heartbeat 3.5s infinite;
-  margin: 0 2px;
-//   margin: 0 auto;
-
+  margin: 0 -4px;
+  display: inline-block;
+  top: 6px;
 }
 .heart:before,
 .heart:after {

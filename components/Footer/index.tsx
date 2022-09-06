@@ -3,7 +3,19 @@ import styles from "./Footer.module.scss";
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      made with <Heart width={30} height={20} /> by r0ss
+      <p>
+        made with <Heart width={30} height={20} /> by r0ss
+      </p>
+      <p>
+        data hämtat från{" "}
+        <a
+          href="https://www.iss-menyer.se/restaurants/restaurang-gourmedia"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Gourmedia
+        </a>
+      </p>
     </footer>
   );
 };
