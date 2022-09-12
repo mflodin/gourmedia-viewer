@@ -5,7 +5,7 @@ interface HeartProps {
     height?: number;
 }
 const Heart = ({width, height}: HeartProps) => {
-    return <div className={styles.heart} style={{
+    return <span className={styles.heart} style={{
         width: width,
         height: height
     }} />
