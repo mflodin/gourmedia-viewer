@@ -60,7 +60,7 @@ export default async function handler(
           (
             document
               .querySelector(
-                "div[data-mesh-id=comp-ko47p7a8inlineContent-gridContainer]"
+                "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer]"
               )
               ?.querySelector("textarea")?.value || ""
           ).length > 0
@@ -68,7 +68,7 @@ export default async function handler(
 
       console.log("Parsing...");
       let menus = await page.$$eval(
-        "div[data-mesh-id=comp-ko47p7a8inlineContent-gridContainer] div[class=_1ncY2]",
+        "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer] div[class=_1vNJf]",
         (divs) => divs.map((day) => day.querySelector("textarea")?.value)
       );
       console.log("DONE!");
