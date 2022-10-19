@@ -77,7 +77,7 @@ export default async function handler(
       redisClient.set(
         "week_menu",
         JSON.stringify(
-          menus.map((menu, idx) => ({
+          menus.slice(0, 5).map((menu, idx) => ({
             day: DAYS[Math.min(idx, DAYS.length - 1)],
             menu: menu || "",
           }))
