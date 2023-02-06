@@ -16,20 +16,20 @@ import WeekMenu from "../components/WeekMenu";
 import clsx from "clsx";
 import Script from "next/script";
 
-const REVALIDATE = 60 * 2; //2 minutes
-export async function getStaticProps() {
-  let menu;
-  try {
-    menu = await fetchMenu();
-    if (typeof menu === 'string') {
-      menu = JSON.parse(menu);
-    }
-  } catch (err) {
-    throw new Error(`Failed to fetch menu: ${err}`);
-  }
+// const REVALIDATE = 60 * 2; //2 minutes
+// export async function getStaticProps() {
+//   let menu;
+//   try {
+//     menu = await fetchMenu();
+//     if (typeof menu === 'string') {
+//       menu = JSON.parse(menu);
+//     }
+//   } catch (err) {
+//       throw new Error(`Failed to fetch menu: ${err}`);
+//   }
   
-  return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
-}
+//   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
+// }
 
 const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const [showAllWeek, setShowAllWeek] = React.useState(false);

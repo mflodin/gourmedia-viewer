@@ -10,11 +10,10 @@ export const useMenu = (initialData?: Menu[]) => {
     ["menu", weekStartDate],
     async () => {
       const foodData = await fetchMenu();
-
-      return parseMenu(foodData);
+      return parseMenu(JSON.parse(foodData));
     },
     {
-      initialData,
+      // initialData,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
     }
