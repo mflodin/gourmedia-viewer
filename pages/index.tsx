@@ -15,6 +15,7 @@ import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
 import clsx from "clsx";
 import Script from "next/script";
+import { Analytics } from '@vercel/analytics/react';
 
 const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
@@ -122,6 +123,7 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
       </main>
       <Divider direction="left" />
       <Footer />
+      <Analytics />
     </div>
   );
 };
