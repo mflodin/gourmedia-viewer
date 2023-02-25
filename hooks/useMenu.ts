@@ -9,7 +9,7 @@ export const useMenu = (initialData?: Menu[]) => {
   return useQuery<Menu[], Error>(
     ["menu", weekStartDate],
     async () => {
-      const foodData = JSON.parse(await fetchMenu());
+      const foodData = await fetchMenu();
       return parseMenu(foodData);
     },
     {

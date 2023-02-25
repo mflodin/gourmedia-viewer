@@ -18,8 +18,9 @@ export default async function handler(
       }
     );
     const data = await response.json();
+    
     res.setHeader('Cache-Control', `s-maxage=${CACHE_TIME}`)
-    res.status(200).json(data.result);
+    res.status(200).json(JSON.parse(data.result));
   } catch (err: any) {
     console.log("err", err);
     res.status(500).send(err.message);
