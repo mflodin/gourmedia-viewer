@@ -1,0 +1,6 @@
+{
+    "crons": [{
+      "path": "/api/snusket/job",
+      "schedule": "0 10 * * *"
+    }]
+  }
