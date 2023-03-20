@@ -68,7 +68,7 @@ export default async function handler(
 
       console.log("Parsing...");
       let menus = await page.$$eval(
-        "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer] div[class='comp-l930fo034 YzqVVZ']",
+        "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer] div[class='comp-l930fo034 YzqVVZ wixui-repeater__item']",
         (divs) => divs.map((day) => day.querySelector("textarea")?.value)
       );
       console.log("DONE!");
