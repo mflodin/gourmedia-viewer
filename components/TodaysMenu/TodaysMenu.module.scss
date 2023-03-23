@@ -12,6 +12,8 @@
     color: #f7fbbc;
     font-size: 18px;
     word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   @media (min-width: 400px) {
