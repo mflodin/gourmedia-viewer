@@ -55,15 +55,14 @@ export default async function handler(
       await page.setViewport({ width: 1440, height: 744 });
       await navigationPromise;
 
-      await page.waitForFunction(
-        () =>
-          (
-            document
-              .querySelector(
-                "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer]"
-              )
-              ?.querySelector("textarea")?.value || ""
-          ).length > 0
+      await page.waitForFunction(() =>
+        Array.from(
+          document
+            .querySelector(
+              "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer]"
+            )
+            ?.querySelectorAll("textarea") || []
+        ).some((day) => day && day.value.length > 0)
       );
 
       console.log("Parsing...");
