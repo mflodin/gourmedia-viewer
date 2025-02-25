@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gourmedia Viewer
 
-## Getting Started
+This is a [Next.js](https://nextjs.org/) project for displaying todays lunch at Gourmedia
 
-First, run the development server:
+## Development
+
+Install dependencies
+
+```bash
+npm i
+```
+
+Start up a redis server, and a local version of the upstash server
+
+```bash
+docker compose up
+```
+
+Copy the environment variables
+
+```bash
+cp .env-example .env.local
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,25 +30,22 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Example data
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### API request
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+https://www.iss-menyer.se/_api/cloud-data/v2/items/query?.r=eyJkYXRhQ29sbGVjdGlvbklkIjoiTWVueSIsInF1ZXJ5Ijp7ImZpbHRlciI6eyJyZXN0cmF1bnRJZCI6IlJlc3RhdXJhbmcgR291cm1lZGlhIiwid2Vla051bWJlciI6NX0sInBhZ2luZyI6eyJvZmZzZXQiOjAsImxpbWl0IjoxfSwiZmllbGRzIjpbXX0sInJlZmVyZW5jZWRJdGVtT3B0aW9ucyI6W10sInJldHVyblRvdGFsQ291bnQiOnRydWUsImVudmlyb25tZW50IjoiTElWRSIsImFwcElkIjoiMTZkNDVlMzUtZDNkOC00ZDVlLWIyNGQtMmE2ODBiN2U1MDg5In0
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The `.r` parameter is a base64 encoded json payload. The one in the example decodes to
 
-## Learn More
+```
+{"dataCollectionId":"Meny","query":{"filter":{"restrauntId":"Restaurang Gourmedia","weekNumber":5},"paging":{"offset":0,"limit":1},"fields":[]},"referencedItemOptions":[],"returnTotalCount":true,"environment":"LIVE","appId":"16d45e35-d3d8-4d5e-b24d-2a680b7e5089"}
+```
 
-To learn more about Next.js, take a look at the following resources:
+Some of the fields don't seem to be needed for our purposes. This payload seems to work for our needs. Note that we've also added the `year` filter, since you otherwise can get multiple responses for a certain week (one for each year); Also note that `restrauntId` needs to be misspelt.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+{"dataCollectionId":"Meny","query":{"filter":{"restrauntId":"Restaurang Gourmedia","weekNumber":5, "year":2025}}}
+```

@@ -1,8 +1,8 @@
 {
-    "crons": [
-        {
-            "path": "/api/snusket/job",
-            "schedule": "0 10 * * *"
-        }
-    ]
+  "crons": [
+    {
+      "path": "/api/snusket/job",
+      "schedule": "0 7,9,11 * * 1-5"
+    }
+  ]
 }

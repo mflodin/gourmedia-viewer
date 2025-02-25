@@ -1,0 +1,10 @@
+{
+  "dataCollectionId": "Meny",
+  "query": {
+    "filter": {
+      "restrauntId": "Restaurang Gourmedia",
+      "weekNumber": 5,
+      "year": 2025
+    }
+  }
+}

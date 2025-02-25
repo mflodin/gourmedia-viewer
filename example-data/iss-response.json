@@ -1,0 +1,47 @@
+{
+  "dataItems": [
+    {
+      "id": "04bc4e3d-eb7b-413a-aaf0-2a9f2e9a5b1a",
+      "dataCollectionId": "Meny",
+      "data": {
+        "menuSwedish": [
+          {
+            "menu": "Vegetariskt\tSpaghetti \"Vegan bolognese\"serveras med riven ost och ruccola\t\t\t\t\t\t\nKött\tKycklingklubba bbq med coleslaw,majssallad,kryddig ris\t\t\t\t\t\t"
+          },
+          {
+            "menu": "Vegetariskt\tTeriyaki \"Balls\"med chilimayo,asien grönt samt basmatiris\t\t\t\t\t\t\nKött\tStekt rimmad fläsk med raggmunk serveras lingon\t\t\t\t\t\t"
+          },
+          {
+            "menu": "Vegetariskt\tBiff ala Lindström\"vegan\"saltgurka,persiljefärskost,rostad potatis\t\t\t\t\t\t\nKött\tPytti panna med stekt ägg och rödbetor\t\t\t\t\t\t"
+          },
+          {
+            "menu": "Vegetariskt\tTempura blomkål och champinjoner med misodressing samt basmatiris\t\t\t\t\t\t\t\nKött\tKryddig korv med potatismos,tunnbröd,räksallad,rostadlök,senap,ketchup\t\t\t\t\t\t\t\nÄrtsoppa\tÄrtsoppa/Vegan Fläsk,senap,timjan,mejram\t\t\t\t\t\t\t\nPannkakor\tYesufs goda pannkisar med drottningsylt och grädde\t\t\t\t\t\t\t"
+          },
+          {
+            "menu": "Vegetariskt\tGallo pinto med vegan chorizo,paprika,majs,bönor samt habaneromayo\t\t\t\t\t\t\t\nkött\tNattbakad karre med bearnaise,haricotsallad samt potatisgratäng\t\t\t\t\t\t\t"
+          },
+          { "menu": "" },
+          { "menu": "" }
+        ],
+        "_id": "04bc4e3d-eb7b-413a-aaf0-2a9f2e9a5b1a",
+        "_owner": "a5a22638-44ca-4b72-9da8-60b738f1c706",
+        "_createdDate": { "$date": "2025-02-24T10:46:40.271Z" },
+        "year": 2025.0,
+        "_updatedDate": { "$date": "2025-02-24T10:46:40.271Z" },
+        "restrauntId": "Restaurang Gourmedia",
+        "menuDate": { "$date": "2025-02-23T23:00:00Z" },
+        "link-meny-title-2": "/meny/edit/restaurang-gourmedia/04bc4e3d-eb7b-413a-aaf0-2a9f2e9a5b1a",
+        "weekNumber": 9.0
+      }
+    }
+  ],
+  "pagingMetadata": {
+    "count": 1,
+    "offset": 0,
+    "tooManyToCount": false,
+    "cursors": {
+      "next": "AyWkS7kyjpics0uZvROaSjwzgnSYW2Sm8vjR4ZPbOLma4mH+CSMS8syTmZue39Glbt4pzv3sov1LZtzU0TlU0SR2lQKhyDOmxaPsmjishFtmYeu7btUVJWKpnbbC/Dh3gDdyPEPepdLdzIt0267QA6r83mkWxHVUW66RkY2syc2Rlbr302gTgBF1TuYYsemMy8BE7hW9zvBCN2xf68CAY/z85lQ3/7Ir4zqwpWcEgTmhOyj6UbUfkZ6y4zjV/CR47F0BjbbjY3C9MNhZKrAbCsPX7Lea9nfDxoX/pEiYKmWKNElC1oi3FwV1G0xB+RKOoVje2dqJsmBma/WmzS4fZhOqLV3/d6ubpfiIDtibEq2qIcagG+SDgbfQy5wMa4BqlCxDVEqh4ZZWzHpCqIRI3bTL+6THfTWlc0TR9b1hUxQ601MaDQXeoDW1oZEFH67ipaz1XyDQpVT66aRicU3Q7JzeYeTAgnHZrmAruTDEN9Cw3lqp/iplwV0UoaAU/qnglZDqhm8BI9U17dBjT6aGqAJrllPcAdYWtGO3U9+IAkzG3iDzvDsWyK7ZE72omTXT7O3igAsKhsUuooE9Za9ePxUAYUVhneT7gEBsQuRto37INLO2XwZMhwQqu3Fz0ILT"
+    },
+    "hasNext": true
+  }
+}

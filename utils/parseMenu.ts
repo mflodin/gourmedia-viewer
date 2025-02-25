@@ -1,6 +1,10 @@
 import { getDay } from "date-fns";
 import { FoodData, Menu } from "../types/Menu";
 
+function fixPunctuation(str: string): string {
+  return str?.replaceAll(",", ", ").replaceAll(/(".*?")/g, " $1 ");
+}
+
 export default function parseMenu(weekMenu: FoodData[]): Menu[] {
   const today = getDay(new Date()) - 1;
 
@@ -19,8 +23,8 @@ export default function parseMenu(weekMenu: FoodData[]): Menu[] {
           header = `Maträtt ${courseIdx + 1}`;
         }
         return {
-          type: header || "",
-          dish: description || "",
+          type: header ?? "",
+          dish: fixPunctuation(description) ?? "",
         };
       }),
     };

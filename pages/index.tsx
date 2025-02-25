@@ -14,21 +14,19 @@ import Footer from "../components/Footer";
 import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
 import clsx from "clsx";
-import Script from "next/script";
-import { Analytics } from '@vercel/analytics/react';
 
 const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
   let menu;
   try {
     menu = await fetchMenu();
-    if (typeof menu === 'string') {
+    if (typeof menu === "string") {
       menu = JSON.parse(menu);
     }
   } catch (err) {
-      throw new Error(`Failed to fetch menu: ${err}`);
+    throw new Error(`Failed to fetch menu: ${err}`);
   }
-  
+
   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
 }
 
@@ -39,19 +37,6 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
   const { data } = useMenu(menuInitData);
   return (
     <div className={styles.container}>
-       <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-6Y67FX2WT8"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-6Y67FX2WT8');
-        `}
-        </Script>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
@@ -123,7 +108,6 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
       </main>
       <Divider direction="left" />
       <Footer />
-      <Analytics />
     </div>
   );
 };

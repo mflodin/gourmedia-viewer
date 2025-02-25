@@ -1,93 +1,90 @@
-import Redis from "ioredis";
+import { Redis } from "@upstash/redis";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Browser } from "puppeteer-core";
-
-let redisClient = new Redis(process.env.REDIS_URL || "");
-
-let chrome = {} as any;
-let puppeteer: any;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  // running on the Vercel platform.
-  chrome = require("chrome-aws-lambda");
-  puppeteer = require("puppeteer-core");
-} else {
-  // running locally.
-  puppeteer = require("puppeteer");
-}
-
-const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"];
+import { CookieJar } from "tough-cookie";
+import { getISOWeek, getISOWeekYear, getDay } from "date-fns";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>
 ) {
-  const auth = req.headers.authorization;
+  try {
+    const redisClient = new Redis({
+      url: process.env.REDIS_URL,
+      token: process.env.REDIS_TOKEN,
+    });
 
-  if (
-    process.env.NODE_ENV === "development" ||
-    (req.method === "POST" && auth === process.env.API_SECRET_KEY)
-  ) {
-    try {
-      console.log("Fetching...");
-      const browser = (await (process.env.AWS_LAMBDA_FUNCTION_VERSION
-        ? puppeteer.launch({
-            args: [
-              ...chrome.args,
-              "--hide-scrollbars",
-              "--disable-web-security",
-            ],
-            defaultViewport: chrome.defaultViewport,
-            executablePath: await chrome.executablePath,
-            headless: true,
-            ignoreHTTPSErrors: true,
-          })
-        : puppeteer.launch())) as Browser;
-      const page = await browser.newPage();
-      const navigationPromise = page.waitForNavigation();
+    const now = new Date();
+    const weekNumber = getISOWeek(now);
+    const year = getISOWeekYear(now);
 
-      await page.goto(
-        "https://www.iss-menyer.se/restaurants/restaurang-gourmedia",
-        {
-          timeout: 0,
-        }
-      );
-      await page.setViewport({ width: 1440, height: 744 });
-      await navigationPromise;
+    const payload = {
+      dataCollectionId: "Meny",
+      query: {
+        // Yes, restrauntId is spelled wrong in the API
+        filter: { restrauntId: "Restaurang Gourmedia", weekNumber, year },
+        paging: { offset: 0, limit: 1 },
+      },
+    };
 
-      await page.waitForFunction(() =>
-        Array.from(
-          document
-            .querySelector(
-              "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer]"
-            )
-            ?.querySelectorAll("textarea") || []
-        ).some((day) => day && day.value.length > 0)
-      );
+    const base64Payload = Buffer.from(JSON.stringify(payload)).toString(
+      "base64"
+    );
+    const apiUrl = new URL(
+      "https://www.iss-menyer.se/_api/cloud-data/v2/items/query"
+    );
+    apiUrl.searchParams.set(".r", base64Payload);
 
-      console.log("Parsing...");
-      let menus = await page.$$eval(
-        "div[data-mesh-id=comp-l930fnzz5inlineContent-gridContainer] div[class='comp-l930fo034 YzqVVZ wixui-repeater__item']",
-        (divs) => divs.map((day) => day.querySelector("textarea")?.value)
-      );
-      console.log("DONE!");
-      await browser.close();
+    const menuUrl =
+      "https://www.iss-menyer.se/restaurants/restaurang-gourmedia";
 
-      redisClient.set(
-        "week_menu",
-        JSON.stringify(
-          menus.slice(0, 5).map((menu, idx) => ({
-            day: DAYS[Math.min(idx, DAYS.length - 1)],
-            menu: menu || "",
-          }))
-        )
-      );
-      res.status(200).send("OK!");
-    } catch (err: any) {
-      console.log("Error", err);
-      res.status(500).send(err.message);
+    const websiteResponse = await fetch(menuUrl);
+
+    const cookies = websiteResponse.headers.getSetCookie();
+
+    const cookieJar = new CookieJar();
+
+    for (const cookie of cookies) {
+      try {
+        cookieJar.setCookieSync(cookie, menuUrl);
+      } catch (err) {
+        // Gourmedia is trying to set a cookie with a domain other than "www.iss-menyer.se" which is not allowed
+        // Just ignore it
+      }
     }
-  } else {
-    return res.status(401).end();
+
+    const cookieHeader = cookieJar.getCookieStringSync(apiUrl.toString());
+
+    const apiResponse = await (
+      await fetch(apiUrl.toString(), {
+        headers: {
+          cookie: cookieHeader,
+        },
+      })
+    ).json();
+
+    const menuItems = apiResponse.dataItems?.[0]?.data?.menuSwedish;
+
+    if (!menuItems) {
+      throw new Error("No menu items found");
+    }
+
+    if (!menuItems.some(({ menu }: { menu: string }) => menu !== "")) {
+      throw new Error("No menu has content");
+    }
+
+    const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"];
+
+    const weekMenu = menuItems
+      .slice(0, DAYS.length)
+      .map(({ menu = "" }: { menu: string }, idx: number) => ({
+        day: DAYS[idx],
+        menu,
+      }));
+
+    redisClient.set("week_menu", weekMenu);
+    res.status(200).send("OK!");
+  } catch (err: any) {
+    console.log("err", err);
+    res.status(500).send(err.message);
   }
 }
