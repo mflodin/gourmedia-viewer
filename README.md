@@ -30,6 +30,10 @@ npm run dev
 yarn dev
 ```
 
+## Deployment
+
+The app will be automatically deployed to Vercel on push to `main`
+
 ## Example data
 
 ### API request
