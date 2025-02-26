@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <p>
-        made with <Heart width={30} height={20} /> by r0ss
+        made with <Heart width={30} height={20} /> by r0ss & mflodin
       </p>
       <p>
         data hämtat från{" "}
