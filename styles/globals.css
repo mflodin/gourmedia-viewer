@@ -1,5 +1,5 @@
 :root {
-  --site-bg-color: #10111F;
+  --site-bg-color: #10111f;
   --site-default-color: #fff;
   --text-color: #e9e9e9;
   --divider-anim-speed: 0;
@@ -9,8 +9,7 @@
 }
 @font-face {
   font-family: "Bee Dee Groovy";
-  src: url("/fonts/BeeDeeGroovy-Regular.woff2") format("woff2"),
-    url("/fonts/BeeDeeGroovy-Regular.woff") format("woff");
+  src: url("/fonts/BeeDeeGroovy-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -33,11 +32,12 @@ a {
   text-decoration: none;
 }
 p {
-  color: var(--text-color)
+  color: var(--text-color);
 }
 
-h3, h4 {
-  color: var(--site-default-color)
+h3,
+h4 {
+  color: var(--site-default-color);
 }
 
 * {

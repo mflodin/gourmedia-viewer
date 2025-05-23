@@ -18,6 +18,7 @@
 .title {
   font-family: "Bee Dee Groovy", Arial;
   font-weight: normal;
+  text-transform: lowercase;
   color: #41ead4;
   margin: 0;
   line-height: 0.9;
@@ -56,15 +57,24 @@
 }
 
 .weekHeader {
-  font-family: "Bee Dee Groovy", Arial;
   color: #41ead4;
+  font-family: "Bee Dee Groovy", Arial;
   font-weight: normal;
+  text-transform: lowercase;
   font-size: 4rem;
   margin: 10px 0 30px;
   text-align: center;
   @media (min-width: 880px) {
     margin-top: 50px;
   }
+}
+
+.weekNumber {
+  color: #41ead4;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 2rem;
+  text-align: center;
 }
 
 .toggleWeekButton {
@@ -107,7 +117,7 @@
 }
 
 .toggleWeekButton--close::before {
-  transform: rotate(180deg)
+  transform: rotate(180deg);
 }
 
 @media (min-width: 600px) {
