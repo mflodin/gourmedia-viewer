@@ -1,17 +1,17 @@
-import { DayMenu } from "../../types/Menu";
+import { Course } from "../../types/Menu";
 import styles from "./TodaysMenu.module.scss";
 
 interface TodaysMenuProps {
-  dayMenu?: DayMenu[] | null;
+  courses?: Course[] | null;
 }
-const TodaysMenu = ({ dayMenu = []}: TodaysMenuProps) => {
-  if (!dayMenu || dayMenu.length === 0) {
+const TodaysMenu = ({ courses = [] }: TodaysMenuProps) => {
+  if (!courses || courses.length === 0) {
     return null;
   }
 
   return (
     <div className={styles.container}>
-      {dayMenu.map((course) => {
+      {courses.map((course) => {
         return (
           <div key={course.type} className={styles.course}>
             <h3>{course.type}</h3>

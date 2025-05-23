@@ -35,13 +35,21 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
   const today = useCurrentDay();
   const { todaysMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
+
+  const heading = today.isWeekend ? "Idag är det stängt!" : "Dagens meny";
   return (
     <div className={styles.container}>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
           name="description"
-          content="Veckans mat på en bra lunchrestaurang"
+          content={`Veckans mat på en bra lunchrestaurang
+\n${heading} - ${today.formattedDate}
+${
+  todaysMenu?.courses
+    ?.map((course) => `${course.type}: ${course.dish}`)
+    .join("\n") ?? ""
+}`}
         />
         <meta
           name="viewport"
@@ -49,9 +57,9 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
         />
         <link
           rel="preload"
-          href="/fonts/BeeDeeGroovy-Regular.woff2"
+          href="/fonts/BeeDeeGroovy-Regular.woff"
           as="font"
-          type="font/woff2"
+          type="font/woff"
           crossOrigin="anonymous"
         />
         <link
@@ -80,12 +88,13 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
         })}
       >
         <h1 className={styles.title}>
-          {today.isWeekend ? "Idag är det stängt!" : "Dagens meny"}
+          {heading}
+          <div className={styles.titleDate}>{today.formattedDate}</div>
         </h1>
         {!today.isWeekend && (
           <>
             <SpinningBadge />
-            <TodaysMenu dayMenu={todaysMenu?.courses} />
+            <TodaysMenu courses={todaysMenu?.courses} />
             <Divider />
 
             <h2 className={styles.weekHeader}>

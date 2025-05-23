@@ -77,7 +77,7 @@ export default async function handler(
     redisClient.set(`week_menu:${year}-${weekNumber}`, weekMenu);
     res.status(200).send("OK!");
   } catch (err: any) {
-    console.log("err", err);
+    console.error("err", err);
     res.status(500).send(err.message);
   }
 }

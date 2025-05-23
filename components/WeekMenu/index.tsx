@@ -15,7 +15,7 @@ const WeekMenu: React.FC<WeekMenuProps> = ({
 }) => {
   return (
     <div className={className}>
-      {menu?.dayMenus.map((dayMenu) => {
+      {menu?.dayMenus?.map((dayMenu) => {
         return (
           <div
             key={dayMenu.day}
@@ -26,7 +26,7 @@ const WeekMenu: React.FC<WeekMenuProps> = ({
             })}
           >
             <h2>{dayMenu.day}</h2>
-            {dayMenu.courses.map((course) => (
+            {dayMenu.courses?.map((course) => (
               <React.Fragment key={course.type}>
                 <h4>{course.type}</h4>
                 <p>{course.dish}</p>

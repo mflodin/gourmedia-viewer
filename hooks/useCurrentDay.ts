@@ -6,6 +6,9 @@ export const useCurrentDay = () => {
 
   return {
     date: today,
+    formattedDate: format(today, "EEEE dd MMM", {
+      locale: sv,
+    }),
     day: format(today, "EEEE", {
       locale: sv,
     }),
