@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { FoodData } from "../../../types/Menu";
 import { Redis } from "@upstash/redis";
+import { getISOWeek, getISOWeekYear } from "date-fns";
 
 const CACHE_TIME = 60 * 10; // 10 minutes
 
@@ -8,13 +9,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<FoodData[]>
 ) {
+  const now = new Date();
+  const weekNumber = getISOWeek(now);
+  const year = getISOWeekYear(now);
+
   try {
     const redisClient = new Redis({
       url: process.env.REDIS_URL,
       token: process.env.REDIS_TOKEN,
     });
 
-    const menu = (await redisClient.get("week_menu")) as FoodData[];
+    const menu = (await redisClient.get(
+      `week_menu:${year}-${weekNumber}`
+    )) as FoodData[];
 
     if (!menu) {
       throw new Error("No menu found");

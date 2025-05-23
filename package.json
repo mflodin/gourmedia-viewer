@@ -14,10 +14,10 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "next": "^15.1.7",
+    "playwright": "^1.52.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-query": "^3.39.3",
-    "tough-cookie": "^5.1.1"
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@types/node": "22.13.5",

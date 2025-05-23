@@ -8,7 +8,7 @@ import { fetchMenu } from "../services/fetchMenu";
 import styles from "../styles/Home.module.scss";
 import SpinningBadge from "../components/SpinningBadge";
 import TodaysMenu from "../components/TodaysMenu";
-import { Menu } from "../types/Menu";
+import { WeekMenu as WeekMenuType } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
@@ -30,10 +30,10 @@ export async function getStaticProps() {
   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
 }
 
-const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
+const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
   const [showAllWeek, setShowAllWeek] = React.useState(false);
   const today = useCurrentDay();
-  const { todayMenu } = useTodaysMenu(menuInitData);
+  const { todaysMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
   return (
     <div className={styles.container}>
@@ -85,9 +85,13 @@ const Home: NextPage<{ menuInitData?: Menu[] }> = ({ menuInitData }) => {
         {!today.isWeekend && (
           <>
             <SpinningBadge />
-            <TodaysMenu dayMenu={todayMenu?.menu} />
+            <TodaysMenu dayMenu={todaysMenu?.courses} />
             <Divider />
-            <h2 className={styles.weekHeader}>Veckans meny</h2>
+
+            <h2 className={styles.weekHeader}>
+              Veckans meny{" "}
+              <div className={styles.weekNumber}>v {data?.week}</div>
+            </h2>
             {today.day !== "måndag" && (
               <button
                 className={clsx(styles.toggleWeekButton, {

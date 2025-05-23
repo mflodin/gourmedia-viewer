@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
 import { fetchMenu } from "../services/fetchMenu";
-import { Menu } from "../types/Menu";
+import { WeekMenu } from "../types/Menu";
 import parseMenu from "../utils/parseMenu";
 import { useCurrentDay } from "./useCurrentDay";
 
-export const useMenu = (initialData?: Menu[]) => {
+export const useMenu = (initialData?: WeekMenu) => {
   const { weekStartDate } = useCurrentDay();
-  return useQuery<Menu[], Error>(
+  return useQuery<WeekMenu, Error>(
     ["menu", weekStartDate],
     async () => {
       const foodData = await fetchMenu();

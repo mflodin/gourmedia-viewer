@@ -1,28 +1,32 @@
 import clsx from "clsx";
 import * as React from "react";
-import { Menu } from "../../types/Menu";
+import { WeekMenu as WeekMenuType } from "../../types/Menu";
 import styles from "./WeekMenu.module.scss";
 
 interface WeekMenuProps {
-    menu?: Menu[]
-    className?: string;
-    showAllWeek?: boolean;
+  menu?: WeekMenuType;
+  className?: string;
+  showAllWeek?: boolean;
 }
-const WeekMenu:React.FC<WeekMenuProps> = ({ menu, className, showAllWeek = false }) => {
+const WeekMenu: React.FC<WeekMenuProps> = ({
+  menu,
+  className,
+  showAllWeek = false,
+}) => {
   return (
     <div className={className}>
-      {menu?.map((foodDay) => {
+      {menu?.dayMenus.map((dayMenu) => {
         return (
           <div
-            key={foodDay.day}
+            key={dayMenu.day}
             className={clsx(styles.card, {
-              [styles.pastCard]: foodDay.isPast,
-              [styles.todayCard]: foodDay.isToday,
-              [styles.showInMobile]: showAllWeek
+              [styles.pastCard]: dayMenu.isPast,
+              [styles.todayCard]: dayMenu.isToday,
+              [styles.showInMobile]: showAllWeek,
             })}
           >
-            <h2>{foodDay.day}</h2>
-            {foodDay.menu.map((course) => (
+            <h2>{dayMenu.day}</h2>
+            {dayMenu.courses.map((course) => (
               <React.Fragment key={course.type}>
                 <h4>{course.type}</h4>
                 <p>{course.dish}</p>

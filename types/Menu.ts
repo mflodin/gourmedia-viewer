@@ -1,16 +1,28 @@
-export interface DayMenu {
+export interface Course {
   type: string;
   dish: string;
 }
 
-export interface Menu {
+export interface WeekMenu {
+  week: number;
+  year: number;
+  dayMenus: DayMenu[];
+}
+
+type DayMenu = {
   isPast: boolean;
   isToday: boolean;
   day: string;
-  menu: DayMenu[];
-}
+  courses: Course[];
+};
 
 export type FoodData = {
   day: string;
   menu: string;
+};
+
+export type RedisWeekMenu = {
+  week: number;
+  year: number;
+  menuItems: FoodData[];
 };
