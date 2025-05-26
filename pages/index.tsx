@@ -37,19 +37,14 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
   const { data } = useMenu(menuInitData);
 
   const heading = today.isWeekend ? "Idag är det stängt!" : "Dagens meny";
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
           name="description"
-          content={`Veckans mat på en bra lunchrestaurang
-\n${heading} - ${today.formattedDate}
-${
-  todaysMenu?.courses
-    ?.map((course) => `${course.type}: ${course.dish}`)
-    .join("\n") ?? ""
-}`}
+          content={`Veckans mat på en bra lunchrestaurang`}
         />
         <meta
           name="viewport"
