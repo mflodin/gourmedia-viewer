@@ -13,9 +13,9 @@ export default function parseMenu(weekMenu: RedisWeekMenu): WeekMenu {
     year: weekMenu.year ?? null,
     dayMenus:
       weekMenu?.menuItems?.map((dayMenu, idx) => {
-        const courses = dayMenu.menu
-          ?.split(/\n(.*)\t|\n/)
-          .filter((arr) => arr.trim());
+        const courses = dayMenu.menu.match(/\bstängt\b/i)
+          ? [dayMenu.menu]
+          : dayMenu.menu?.split(/\n(.*)\t|\n/).filter((arr) => arr.trim());
         return {
           day: dayMenu.day,
           isPast: idx < today,
