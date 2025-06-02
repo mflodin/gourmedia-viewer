@@ -22,7 +22,7 @@ export default function parseMenu(weekMenu: RedisWeekMenu): WeekMenu {
           isToday: today === idx,
           courses: courses.map((course, courseIdx) => {
             let [header, description] = course.trim().split(/\t|\n|\s{3,}/);
-            if (!description) {
+            if (!description && !header.match(/\bstängt\b/i)) {
               description = header;
               header = `Maträtt ${courseIdx + 1}`;
             }
