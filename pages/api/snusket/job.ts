@@ -11,6 +11,10 @@ import {
 } from "date-fns";
 import { sv } from "date-fns/locale";
 
+export const config = {
+  maxDuration: 60,
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>
