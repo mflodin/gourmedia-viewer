@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { chromium } from "playwright";
+import { chromium } from "playwright-core";
+import chromiumBinary from "@sparticuz/chromium";
 import { getISOWeek, getISOWeekYear } from "date-fns";
 
 export default async function handler(
@@ -20,7 +21,10 @@ export default async function handler(
     const menuUrl =
       "https://www.iss-menyer.se/restaurants/restaurang-gourmedia";
 
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+      args: chromiumBinary.args, // Playwright merges the args
+      executablePath: await chromiumBinary.executablePath(),
+    });
     const page = await browser.newPage();
     let menuItems: any[] = [];
 
