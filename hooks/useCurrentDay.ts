@@ -1,4 +1,10 @@
-import { format, isWeekend, startOfWeek } from "date-fns";
+import {
+  format,
+  getISODay,
+  getISOWeek,
+  getISOWeekYear,
+  isWeekend,
+} from "date-fns";
 import { sv } from "date-fns/locale";
 
 export const useCurrentDay = () => {
@@ -6,15 +12,11 @@ export const useCurrentDay = () => {
 
   return {
     date: today,
-    formattedDate: format(today, "EEEE dd MMM", {
+    formattedDate: format(today, "EEEE d MMM", {
       locale: sv,
     }),
-    day: format(today, "EEEE", {
-      locale: sv,
-    }),
+    dayIndex: getISODay(today) - 1, // Adjusting so Monday is 0
     isWeekend: isWeekend(today),
-    weekStartDate: format(startOfWeek(today), "yyyy-MM-dd", {
-      locale: sv,
-    }),
+    isoWeekKey: `${getISOWeek(today)}-${getISOWeekYear(today)}`,
   };
 };

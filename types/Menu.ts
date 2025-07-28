@@ -13,10 +13,12 @@ type DayMenu = {
   isPast: boolean;
   isToday: boolean;
   day: string;
+  formattedDate: string;
   courses: Course[];
 };
 
 export type FoodData = {
+  formattedDate: string;
   day: string;
   menu: string;
 };

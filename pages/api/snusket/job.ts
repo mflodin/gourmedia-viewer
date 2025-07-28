@@ -2,7 +2,14 @@ import { Redis } from "@upstash/redis";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { chromium } from "playwright-core";
 import chromiumBinary from "@sparticuz/chromium";
-import { getISOWeek, getISOWeekYear } from "date-fns";
+import {
+  addDays,
+  format,
+  getISOWeek,
+  getISOWeekYear,
+  startOfISOWeek,
+} from "date-fns";
+import { sv } from "date-fns/locale";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,6 +18,7 @@ export default async function handler(
   const now = new Date();
   const weekNumber = getISOWeek(now);
   const year = getISOWeekYear(now);
+  const startOfWeek = startOfISOWeek(now);
 
   try {
     const redisClient = new Redis({
@@ -76,6 +84,9 @@ export default async function handler(
         .slice(0, DAYS.length)
         .map(({ menu = "" }: { menu: string }, idx: number) => ({
           day: DAYS[idx],
+          formattedDate: format(addDays(startOfWeek, idx), "EEEE d MMM", {
+            locale: sv,
+          }),
           menu,
         })),
     };

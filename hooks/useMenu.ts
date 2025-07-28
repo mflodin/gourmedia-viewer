@@ -5,9 +5,9 @@ import parseMenu from "../utils/parseMenu";
 import { useCurrentDay } from "./useCurrentDay";
 
 export const useMenu = (initialData?: WeekMenu) => {
-  const { weekStartDate } = useCurrentDay();
+  const { isoWeekKey } = useCurrentDay();
   return useQuery<WeekMenu, Error>({
-    queryKey: ["menu", weekStartDate],
+    queryKey: ["menu", isoWeekKey],
     queryFn: async () => {
       const foodData = await fetchMenu();
       return parseMenu(foodData);

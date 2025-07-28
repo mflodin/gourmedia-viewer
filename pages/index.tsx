@@ -24,7 +24,7 @@ export async function getStaticProps() {
       menu = JSON.parse(menu);
     }
   } catch (err) {
-    throw new Error(`Failed to fetch menu: ${err}`);
+    console.error(`Failed to fetch menu: ${err}`);
   }
 
   return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
@@ -35,8 +35,9 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
   const today = useCurrentDay();
   const { todaysMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
+  const isOpen = !today.isWeekend && (todaysMenu?.courses?.length ?? 0) > 0;
 
-  const heading = today.isWeekend ? "Idag är det stängt!" : "Dagens meny";
+  const heading = isOpen ? "Dagens meny" : "Idag är det stängt!";
 
   return (
     <div className={styles.container}>
@@ -84,9 +85,11 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
       >
         <h1 className={styles.title}>
           {heading}
-          <div className={styles.titleDate}>{today.formattedDate}</div>
+          <div className={styles.titleDate}>
+            {todaysMenu?.formattedDate ?? today.formattedDate}
+          </div>
         </h1>
-        {!today.isWeekend && (
+        {isOpen && (
           <>
             <SpinningBadge />
             <TodaysMenu courses={todaysMenu?.courses} />
@@ -94,9 +97,11 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
 
             <h2 className={styles.weekHeader}>
               Veckans meny{" "}
-              <div className={styles.weekNumber}>v {data?.week}</div>
+              {data?.week ? (
+                <div className={styles.weekNumber}>v {data?.week}</div>
+              ) : null}
             </h2>
-            {today.day !== "måndag" && (
+            {today.dayIndex > 0 && (
               <button
                 className={clsx(styles.toggleWeekButton, {
                   [styles["toggleWeekButton--close"]]: showAllWeek,
