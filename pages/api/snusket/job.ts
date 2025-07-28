@@ -23,7 +23,9 @@ export default async function handler(
 
     const browser = await chromium.launch({
       args: chromiumBinary.args, // Playwright merges the args
-      executablePath: await chromiumBinary.executablePath(),
+      executablePath:
+        process.env.CHROMIUM_EXECUTABLE_PATH ??
+        (await chromiumBinary.executablePath()),
     });
     const page = await browser.newPage();
     let menuItems: any[] = [];
