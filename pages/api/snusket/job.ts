@@ -48,33 +48,42 @@ export default async function handler(
     const page = await browser.newPage();
     let menuItems: any[] = [];
 
-    // Re-enable response listener with better error handling
-    page.on("response", async (res: Response) => {
-      try {
-        if (res.url().includes("_api") && res.url().includes("query")) {
-          try {
-            const body = await res.json();
-            const dataItems = body.dataItems;
+    // Create a Promise to wait for the menu data
+    const menuDataPromise = new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error("Timeout waiting for menu data"));
+      }, 30000); // 30 second timeout
 
-            if (dataItems && Array.isArray(dataItems)) {
-              dataItems.forEach((item: any) => {
-                if (
-                  item?.dataCollectionId === "Meny" &&
-                  item?.data?.restrauntId === "Restaurang Gourmedia" &&
-                  item?.data?.year === year &&
-                  item?.data?.weekNumber === weekNumber
-                ) {
-                  menuItems = item.data.menuSwedish;
-                }
-              });
+      page.on("response", async (res: Response) => {
+        try {
+          if (res.url().includes("_api") && res.url().includes("query")) {
+            try {
+              const body = await res.json();
+              const dataItems = body.dataItems;
+
+              if (dataItems && Array.isArray(dataItems)) {
+                dataItems.forEach((item: any) => {
+                  if (
+                    item?.dataCollectionId === "Meny" &&
+                    item?.data?.restrauntId === "Restaurang Gourmedia" &&
+                    item?.data?.year === year &&
+                    item?.data?.weekNumber === weekNumber
+                  ) {
+                    menuItems = item.data.menuSwedish;
+                    // Clear timeout and resolve when we get the data
+                    clearTimeout(timeout);
+                    resolve();
+                  }
+                });
+              }
+            } catch (jsonError) {
+              console.error("Error parsing JSON from API response:", jsonError);
             }
-          } catch (jsonError) {
-            console.error("Error parsing JSON from API response:", jsonError);
           }
+        } catch (responseError) {
+          console.error("Error in response listener:", responseError);
         }
-      } catch (responseError) {
-        console.error("Error in response listener:", responseError);
-      }
+      });
     });
 
     // Navigate to the page
@@ -83,8 +92,8 @@ export default async function handler(
       timeout: 30000,
     });
 
-    // Wait for API responses to be captured
-    await page.waitForTimeout(5000);
+    // Wait for the menu data to be captured
+    await menuDataPromise;
     console.log("Menu items found:", menuItems);
 
     if (!menuItems || menuItems.length === 0) {
