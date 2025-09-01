@@ -10,6 +10,7 @@ import {
   startOfISOWeek,
 } from "date-fns";
 import { sv } from "date-fns/locale";
+import { interceptMenuItems } from "../../../services/interceptMenuItems";
 
 export const config = {
   maxDuration: 60,
@@ -47,43 +48,6 @@ export default async function handler(
     });
     const page = await browser.newPage();
 
-    // Create a Promise to wait for the menu data
-    const menuDataPromise = new Promise<any[]>((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error("Timeout waiting for menu data"));
-      }, 30000); // 30 second timeout
-
-      page.on("response", async (res: Response) => {
-        try {
-          if (res.url().includes("_api") && res.url().includes("query")) {
-            try {
-              const body = await res.json();
-              const dataItems = body.dataItems;
-
-              if (dataItems && Array.isArray(dataItems)) {
-                dataItems.forEach((item: any) => {
-                  if (
-                    item?.dataCollectionId === "Meny" &&
-                    item?.data?.restrauntId === "Restaurang Gourmedia" &&
-                    item?.data?.year === year &&
-                    item?.data?.weekNumber === weekNumber
-                  ) {
-                    // Clear timeout and resolve when we get the data
-                    clearTimeout(timeout);
-                    resolve(item.data.menuSwedish);
-                  }
-                });
-              }
-            } catch (jsonError) {
-              console.error("Error parsing JSON from API response:", jsonError);
-            }
-          }
-        } catch (responseError) {
-          console.error("Error in response listener:", responseError);
-        }
-      });
-    });
-
     // Navigate to the page
     await page.goto(menuUrl, {
       waitUntil: "domcontentloaded",
@@ -91,7 +55,7 @@ export default async function handler(
     });
 
     // Wait for the menu data to be captured
-    const menuItems = await menuDataPromise;
+    const menuItems = await interceptMenuItems(page, year, weekNumber);
     console.log("Menu items found:", menuItems);
 
     if (!menuItems || menuItems.length === 0) {
