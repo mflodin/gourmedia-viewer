@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { chromium } from "playwright-core";
+import { chromium, type Response } from "playwright-core";
 import chromiumBinary from "@sparticuz/chromium";
 import {
   addDays,
@@ -24,6 +24,8 @@ export default async function handler(
   const year = getISOWeekYear(now);
   const startOfWeek = startOfISOWeek(now);
 
+  let browser: any = null;
+
   try {
     const redisClient = new Redis({
       url: process.env.REDIS_URL,
@@ -33,45 +35,59 @@ export default async function handler(
     const menuUrl =
       "https://www.iss-menyer.se/restaurants/restaurang-gourmedia";
 
-    const browser = await chromium.launch({
-      args: chromiumBinary.args, // Playwright merges the args
+    browser = await chromium.launch({
+      args: [
+        ...chromiumBinary.args,
+        '--disable-gpu' // needed for some reason to make it actually wait for the API response
+      ],
       executablePath:
         process.env.CHROMIUM_EXECUTABLE_PATH ??
         (await chromiumBinary.executablePath()),
+      headless: true,
     });
     const page = await browser.newPage();
     let menuItems: any[] = [];
 
-    /* Same listener pattern for responses */
-    page.on("response", async (res) => {
-      if (res.url().includes("_api") && res.url().includes("query")) {
-        const body = await res.json(); // or .json() / .buffer()
-        const dataItems = body.dataItems;
+    // Re-enable response listener with better error handling
+    page.on("response", async (res: Response) => {
+      try {
+        if (res.url().includes("_api") && res.url().includes("query")) {
+          try {
+            const body = await res.json();
+            const dataItems = body.dataItems;
 
-        dataItems.forEach((item: any) => {
-          if (
-            item?.dataCollectionId === "Meny" &&
-            item?.data?.restrauntId === "Restaurang Gourmedia" &&
-            item?.data?.year === year &&
-            item?.data?.weekNumber === weekNumber
-          ) {
-            menuItems = item.data.menuSwedish;
+            if (dataItems && Array.isArray(dataItems)) {
+              dataItems.forEach((item: any) => {
+                if (
+                  item?.dataCollectionId === "Meny" &&
+                  item?.data?.restrauntId === "Restaurang Gourmedia" &&
+                  item?.data?.year === year &&
+                  item?.data?.weekNumber === weekNumber
+                ) {
+                  menuItems = item.data.menuSwedish;
+                }
+              });
+            }
+          } catch (jsonError) {
+            console.error("Error parsing JSON from API response:", jsonError);
           }
-        });
+        }
+      } catch (responseError) {
+        console.error("Error in response listener:", responseError);
       }
     });
 
-    try {
-      await page.goto(menuUrl, {
-        waitUntil: "networkidle",
-      });
-    } catch (error) {
-      console.error("Error navigating to the page:", error);
-    }
+    // Navigate to the page
+    await page.goto(menuUrl, {
+      waitUntil: "domcontentloaded",
+      timeout: 30000,
+    });
 
-    await browser.close();
+    // Wait for API responses to be captured
+    await page.waitForTimeout(5000);
+    console.log("Menu items found:", menuItems);
 
-    if (!menuItems) {
+    if (!menuItems || menuItems.length === 0) {
       throw new Error("No menu items found");
     }
 
@@ -100,5 +116,10 @@ export default async function handler(
   } catch (err: any) {
     console.error("err", err);
     res.status(500).send(err.message);
+  } finally {
+    // Close browser here - after everything is done
+    if (browser) {
+      await browser.close();
+    }
   }
 }
