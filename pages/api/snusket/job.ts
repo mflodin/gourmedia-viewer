@@ -46,10 +46,9 @@ export default async function handler(
       headless: true,
     });
     const page = await browser.newPage();
-    let menuItems: any[] = [];
 
     // Create a Promise to wait for the menu data
-    const menuDataPromise = new Promise<void>((resolve, reject) => {
+    const menuDataPromise = new Promise<any[]>((resolve, reject) => {
       const timeout = setTimeout(() => {
         reject(new Error("Timeout waiting for menu data"));
       }, 30000); // 30 second timeout
@@ -69,10 +68,9 @@ export default async function handler(
                     item?.data?.year === year &&
                     item?.data?.weekNumber === weekNumber
                   ) {
-                    menuItems = item.data.menuSwedish;
                     // Clear timeout and resolve when we get the data
                     clearTimeout(timeout);
-                    resolve();
+                    resolve(item.data.menuSwedish);
                   }
                 });
               }
@@ -93,7 +91,7 @@ export default async function handler(
     });
 
     // Wait for the menu data to be captured
-    await menuDataPromise;
+    const menuItems = await menuDataPromise;
     console.log("Menu items found:", menuItems);
 
     if (!menuItems || menuItems.length === 0) {
