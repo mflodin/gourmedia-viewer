@@ -9,7 +9,7 @@ const Footer = () => {
       <p>
         data hämtat från{" "}
         <a
-          href="https://www.iss-menyer.se/restaurants/restaurang-gourmedia"
+          href="https://www.nordrest.se/restaurang/gourmedia/#meny"
           target="_blank"
           rel="noreferrer"
         >

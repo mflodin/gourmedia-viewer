@@ -8,8 +8,7 @@ import { fetchMenu } from "../services/fetchMenu";
 import styles from "../styles/Home.module.scss";
 import SpinningBadge from "../components/SpinningBadge";
 import TodaysMenu from "../components/TodaysMenu";
-import { WeekMenu as WeekMenuType } from "../types/Menu";
-import parseMenu from "../utils/parseMenu";
+import type { WeekMenu as WeekMenuType } from "../types/Menu";
 import Footer from "../components/Footer";
 import Divider from "../components/Divider";
 import WeekMenu from "../components/WeekMenu";
@@ -17,17 +16,14 @@ import clsx from "clsx";
 
 const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
-  let menu;
+  let menu: WeekMenuType | undefined;
   try {
     menu = await fetchMenu();
-    if (typeof menu === "string") {
-      menu = JSON.parse(menu);
-    }
   } catch (err) {
     console.error(`Failed to fetch menu: ${err}`);
   }
 
-  return { props: { menuInitData: parseMenu(menu) }, revalidate: REVALIDATE };
+  return { props: { menuInitData: menu }, revalidate: REVALIDATE };
 }
 
 const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
@@ -103,6 +99,7 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
             </h2>
             {today.dayIndex > 0 && (
               <button
+                type="button"
                 className={clsx(styles.toggleWeekButton, {
                   [styles["toggleWeekButton--close"]]: showAllWeek,
                 })}

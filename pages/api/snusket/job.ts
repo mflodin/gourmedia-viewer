@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { chromium, type Response } from "playwright-core";
-import chromiumBinary from "@sparticuz/chromium";
+import * as cheerio from "cheerio";
+
 import {
   addDays,
   format,
@@ -10,7 +10,7 @@ import {
   startOfISOWeek,
 } from "date-fns";
 import { sv } from "date-fns/locale";
-import { interceptMenuItems } from "../../../services/interceptMenuItems";
+import { Course, WeekMenu } from "../../../types/Menu";
 
 export const config = {
   maxDuration: 60,
@@ -18,7 +18,7 @@ export const config = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>
+  res: NextApiResponse<string>,
 ) {
   const now = new Date();
   const weekNumber = getISOWeek(now);
@@ -33,53 +33,67 @@ export default async function handler(
       token: process.env.REDIS_TOKEN,
     });
 
-    const menuUrl =
-      "https://www.iss-menyer.se/restaurants/restaurang-gourmedia";
+    const menuItems: Course[][] = [];
 
-    browser = await chromium.launch({
-      args: [
-        ...chromiumBinary.args,
-        '--disable-gpu' // needed for some reason to make it actually wait for the API response
-      ],
-      executablePath:
-        process.env.CHROMIUM_EXECUTABLE_PATH ??
-        (await chromiumBinary.executablePath()),
-      headless: true,
+    const menuUrl = "https://www.nordrest.se/restaurang/gourmedia/";
+
+    const menuHtml = await fetch(menuUrl).then((res) => res.text());
+    const $ = cheerio.load(menuHtml);
+
+    const weekNumberText = $("#dynamic-week-number").text().trim();
+    $(".ratter-list").each((index, element) => {
+      const courses: Course[] = [];
+      $(element)
+        .find(".ratter")
+        .each((i, el) => {
+          const $allergens = $(el).find(".allergener");
+          const allergens = $allergens.text().trim();
+          $allergens.remove();
+          $(el).find("img").remove();
+          $(el).find("noscript").remove();
+          $(el).find(".co2-value").remove();
+
+          const fullCourse = $(el).text().trim();
+          const indexOfMed = fullCourse.toLowerCase().indexOf(" med ");
+          const dish =
+            indexOfMed !== -1
+              ? fullCourse.substring(0, indexOfMed).trim()
+              : fullCourse;
+          const condiments =
+            indexOfMed !== -1 ? fullCourse.substring(indexOfMed).trim() : "";
+          const co2 = $(el).data("co2") as number;
+
+          courses.push({ dish, condiments, allergens, co2 });
+        });
+      menuItems.push(courses);
     });
-    const page = await browser.newPage();
 
-    // Navigate to the page
-    await page.goto(menuUrl, {
-      waitUntil: "domcontentloaded",
-      timeout: 30000,
-    });
-
-    // Wait for the menu data to be captured
-    const menuItems = await interceptMenuItems(page, year, weekNumber);
-    console.log("Menu items found:", menuItems);
+    if (!weekNumberText.includes(`${weekNumber}`)) {
+      throw new Error(
+        `Week number on page (${weekNumberText}) does not match expected week number (${weekNumber})`,
+      );
+    }
 
     if (!menuItems || menuItems.length === 0) {
       throw new Error("No menu items found");
     }
 
-    if (!menuItems.some(({ menu }: { menu: string }) => menu !== "")) {
-      throw new Error("No menu has content");
+    if (!menuItems.some((courses) => courses.some(({ dish }) => dish !== ""))) {
+      throw new Error("No dish has content");
     }
 
     const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"];
 
-    const weekMenu = {
+    const weekMenu: WeekMenu = {
       week: weekNumber,
       year,
-      menuItems: menuItems
-        .slice(0, DAYS.length)
-        .map(({ menu = "" }: { menu: string }, idx: number) => ({
-          day: DAYS[idx],
-          formattedDate: format(addDays(startOfWeek, idx), "EEEE d MMM", {
-            locale: sv,
-          }),
-          menu,
-        })),
+      dayMenus: menuItems.slice(0, DAYS.length).map((courses, idx: number) => ({
+        courses,
+        day: DAYS[idx],
+        formattedDate: format(addDays(startOfWeek, idx), "EEEE d MMM", {
+          locale: sv,
+        }),
+      })),
     };
 
     redisClient.set(`week_menu:${year}-${weekNumber}`, weekMenu);

@@ -13,9 +13,11 @@ const TodaysMenu = ({ courses = [] }: TodaysMenuProps) => {
     <div className={styles.container}>
       {courses.map((course) => {
         return (
-          <div key={course.type} className={styles.course}>
-            <h3>{course.type}</h3>
-            <p>{course.dish}</p>
+          <div key={course.dish} className={styles.course}>
+            <h3>{course.dish}</h3>
+            <p>{course.condiments}</p>
+            <p className={styles.allergens}>{course.allergens}</p>
+            {/* <p>{course.co2}</p> */}
           </div>
         );
       })}

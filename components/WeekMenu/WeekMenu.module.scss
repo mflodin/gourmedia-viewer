@@ -7,7 +7,9 @@
   text-decoration: none;
   border: 1px solid #94d2bd;
   border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
   max-width: 240px;
 
   &:hover {
@@ -28,20 +30,25 @@
   }
 
   h4 {
-    margin: 0 0 0.5rem 0;
+    margin: 1rem 0 0.5rem 0;
   }
 
   p {
     font-size: 0.9rem;
     line-height: 1.5;
-    margin-top: 0;
+    margin: 0;
     hyphens: auto;
     word-break: break-word;
     overflow-wrap: break-word;
   }
+
+  .allergens {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
 }
 .pastCard {
-  color: #a8a8a8;
+  --text-color: #a8a8a8;
   border-color: #6c757d;
 
   h2 {
