@@ -1,18 +1,14 @@
 import * as React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { format } from "date-fns";
+import { sv } from "date-fns/locale";
 import { useCurrentDay } from "../hooks/useCurrentDay";
 import { useMenu } from "../hooks/useMenu";
 import { useTodaysMenu } from "../hooks/useTodaysMenu";
 import { fetchMenu } from "../services/fetchMenu";
 import styles from "../styles/Home.module.scss";
-import SpinningBadge from "../components/SpinningBadge";
-import TodaysMenu from "../components/TodaysMenu";
 import type { WeekMenu as WeekMenuType } from "../types/Menu";
-import Footer from "../components/Footer";
-import Divider from "../components/Divider";
-import WeekMenu from "../components/WeekMenu";
-import clsx from "clsx";
 
 const REVALIDATE = 60 * 2; //2 minutes
 export async function getStaticProps() {
@@ -23,20 +19,19 @@ export async function getStaticProps() {
     console.error(`Failed to fetch menu: ${err}`);
   }
 
-  return { props: { menuInitData: menu }, revalidate: REVALIDATE };
+  return { props: { menuInitData: menu ?? null }, revalidate: REVALIDATE };
 }
 
 const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
-  const [showAllWeek, setShowAllWeek] = React.useState(false);
   const today = useCurrentDay();
   const { todaysMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
   const isOpen = !today.isWeekend && (todaysMenu?.courses?.length ?? 0) > 0;
 
-  const heading = isOpen ? "Dagens meny" : "Idag är det stängt!";
+  const introDate = format(today.date, "d MMMM", { locale: sv });
 
   return (
-    <div className={styles.container}>
+    <div className={styles.space}>
       <Head>
         <title>Restaurang med bra mat</title>
         <meta
@@ -47,12 +42,15 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
           name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="preload"
-          href="/fonts/BeeDeeGroovy-Regular.woff"
-          as="font"
-          type="font/woff"
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap"
         />
         <link
           rel="apple-touch-icon"
@@ -74,50 +72,85 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
-      <main
-        className={clsx(styles.main, {
-          [styles.weekend]: today.isWeekend,
-        })}
-      >
-        <h1 className={styles.title}>
-          {heading}
-          <div className={styles.titleDate}>
-            {todaysMenu?.formattedDate ?? today.formattedDate}
-          </div>
-        </h1>
-        {isOpen && (
-          <>
-            <SpinningBadge />
-            <TodaysMenu courses={todaysMenu?.courses} />
-            <Divider />
+      <p className={styles.fadeIntro}>
+        Idag, {introDate}, i en matsal nära nära dig...
+      </p>
 
-            <h2 className={styles.weekHeader}>
-              Veckans meny{" "}
-              {data?.week ? (
-                <div className={styles.weekNumber}>v {data?.week}</div>
-              ) : null}
-            </h2>
-            {today.dayIndex > 0 && (
-              <button
-                type="button"
-                className={clsx(styles.toggleWeekButton, {
-                  [styles["toggleWeekButton--close"]]: showAllWeek,
+      <div className={styles.crawlContainer}>
+        <div className={styles.crawl}>
+          <header className={styles.titleBlock}>
+            <p className={styles.episode}>
+              Episod V · {today.formattedDate}
+            </p>
+            <h1 className={styles.logo}>
+              <span>Dagens</span>
+              <span>Meny</span>
+            </h1>
+          </header>
+
+          <div className={styles.body}>
+            {isOpen ? (
+              <>
+                <p>
+                  Det är en period av oroligheter i lunchrummet. Magar kurrar,
+                  mikrovågsugnen är upptagen, och en hungrig hop söker
+                  näring. Ur skuggorna träder dagens kockar fram med löften
+                  om mättnad och smak.
+                </p>
+
+                <p>
+                  Idag serveras följande rätter i restaurangens stora sal:
+                </p>
+
+                {todaysMenu?.courses?.map((course) => (
+                  <p key={course.dish} className={styles.dishParagraph}>
+                    <strong>{course.dish}.</strong>{" "}
+                    {course.condiments && <>{course.condiments}. </>}
+                    {course.allergens && (
+                      <em className={styles.allergens}>
+                        Allergener: {course.allergens}.
+                      </em>
+                    )}
+                  </p>
+                ))}
+
+                {data?.week && (
+                  <h2 className={styles.weekHeading}>
+                    Veckans Meny — Vecka {data.week}
+                  </h2>
+                )}
+
+                {data?.dayMenus?.map((dayMenu) => {
+                  if (!dayMenu.courses || dayMenu.courses.length === 0) {
+                    return null;
+                  }
+                  return (
+                    <div key={dayMenu.day} className={styles.dayBlock}>
+                      <h3 className={styles.dayHeading}>{dayMenu.day}</h3>
+                      {dayMenu.courses.map((course) => (
+                        <p key={course.dish} className={styles.dishParagraph}>
+                          <strong>{course.dish}</strong>
+                          {course.condiments && <> — {course.condiments}</>}.
+                        </p>
+                      ))}
+                    </div>
+                  );
                 })}
-                onClick={() => setShowAllWeek((show) => !show)}
-              >
-                {showAllWeek ? "Dölj tidigare" : "Visa hela veckan"}
-              </button>
+
+                <p className={styles.outro}>
+                  Må mättnaden vara med dig.
+                </p>
+              </>
+            ) : (
+              <p className={styles.closed}>
+                Restaurangen är stängd. Galaxen vilar och kockarna har
+                dragit sig tillbaka till sina kvarter. Återvänd nästa
+                vardag för nya äventyr i lunchsalen.
+              </p>
             )}
-            <WeekMenu
-              className={styles.grid}
-              menu={data}
-              showAllWeek={showAllWeek}
-            />
-          </>
-        )}
-      </main>
-      <Divider direction="left" />
-      <Footer />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
