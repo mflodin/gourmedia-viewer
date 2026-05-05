@@ -173,9 +173,7 @@ const StarWarsView: React.FC<Props> = ({ menuInitData }) => {
                     <strong>{course.dish}.</strong>{" "}
                     {course.condiments && <>{course.condiments}. </>}
                     {course.allergens && (
-                      <em className={styles.allergens}>
-                        Allergener: {course.allergens}.
-                      </em>
+                      <em className={styles.allergens}>{course.allergens}.</em>
                     )}
                   </p>
                 ))}
