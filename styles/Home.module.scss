@@ -1,3 +1,136 @@
+.container {
+  overflow-x: hidden;
+}
+
+.main {
+  min-height: 91vh;
+  padding: 2rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weekend {
+  justify-content: center;
+}
+
+.title {
+  font-family: "Bee Dee Groovy", Arial;
+  font-weight: normal;
+  text-transform: lowercase;
+  color: #41ead4;
+  margin: 0;
+  line-height: 0.9;
+  font-size: 6rem;
+}
+
+.titleDate {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (min-width: 1280px) {
+    flex-wrap: nowrap;
+  }
+}
+
+.weekHeader {
+  color: #41ead4;
+  font-family: "Bee Dee Groovy", Arial;
+  font-weight: normal;
+  text-transform: lowercase;
+  font-size: 4rem;
+  margin: 10px 0 30px;
+  text-align: center;
+  @media (min-width: 880px) {
+    margin-top: 50px;
+  }
+}
+
+.weekNumber {
+  color: #41ead4;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.toggleWeekButton {
+  display: block;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  &::before {
+    content: "";
+    background-image: url("/images/arrow-up.svg");
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto 8px;
+  }
+
+  @media (min-width: 880px) {
+    display: none;
+  }
+}
+
+.toggleWeekButton--close::before {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 8rem;
+  }
+}
+
 .space {
   position: fixed;
   inset: 0;

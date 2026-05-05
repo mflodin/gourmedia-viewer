@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import clsx from "clsx";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 import { useCurrentDay } from "../hooks/useCurrentDay";
@@ -8,6 +9,11 @@ import { useMenu } from "../hooks/useMenu";
 import { useTodaysMenu } from "../hooks/useTodaysMenu";
 import { fetchMenu } from "../services/fetchMenu";
 import styles from "../styles/Home.module.scss";
+import SpinningBadge from "../components/SpinningBadge";
+import TodaysMenu from "../components/TodaysMenu";
+import Footer from "../components/Footer";
+import Divider from "../components/Divider";
+import WeekMenu from "../components/WeekMenu";
 import type { WeekMenu as WeekMenuType } from "../types/Menu";
 
 const REVALIDATE = 60 * 2; //2 minutes
@@ -22,7 +28,97 @@ export async function getStaticProps() {
   return { props: { menuInitData: menu ?? null }, revalidate: REVALIDATE };
 }
 
-const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
+type Props = { menuInitData?: WeekMenuType };
+
+const HeadCommon = () => (
+  <Head>
+    <title>Restaurang med bra mat</title>
+    <meta
+      name="description"
+      content={`Veckans mat på en bra lunchrestaurang`}
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  </Head>
+);
+
+const NormalView: React.FC<Props> = ({ menuInitData }) => {
+  const [showAllWeek, setShowAllWeek] = React.useState(false);
+  const today = useCurrentDay();
+  const { todaysMenu } = useTodaysMenu(menuInitData);
+  const { data } = useMenu(menuInitData);
+  const isOpen = !today.isWeekend && (todaysMenu?.courses?.length ?? 0) > 0;
+
+  const heading = isOpen ? "Dagens meny" : "Idag är det stängt!";
+
+  return (
+    <div className={styles.container}>
+      <HeadCommon />
+      <Head>
+        <link
+          rel="preload"
+          href="/fonts/BeeDeeGroovy-Regular.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+      </Head>
+
+      <main
+        className={clsx(styles.main, {
+          [styles.weekend]: today.isWeekend,
+        })}
+      >
+        <h1 className={styles.title}>
+          {heading}
+          <div className={styles.titleDate}>
+            {todaysMenu?.formattedDate ?? today.formattedDate}
+          </div>
+        </h1>
+        {isOpen && (
+          <>
+            <SpinningBadge />
+            <TodaysMenu courses={todaysMenu?.courses} />
+            <Divider />
+
+            <h2 className={styles.weekHeader}>
+              Veckans meny{" "}
+              {data?.week ? (
+                <div className={styles.weekNumber}>v {data?.week}</div>
+              ) : null}
+            </h2>
+            {today.dayIndex > 0 && (
+              <button
+                type="button"
+                className={clsx(styles.toggleWeekButton, {
+                  [styles["toggleWeekButton--close"]]: showAllWeek,
+                })}
+                onClick={() => setShowAllWeek((show) => !show)}
+              >
+                {showAllWeek ? "Dölj tidigare" : "Visa hela veckan"}
+              </button>
+            )}
+            <WeekMenu
+              className={styles.grid}
+              menu={data}
+              showAllWeek={showAllWeek}
+            />
+          </>
+        )}
+      </main>
+      <Divider direction="left" />
+      <Footer />
+    </div>
+  );
+};
+
+const StarWarsView: React.FC<Props> = ({ menuInitData }) => {
   const today = useCurrentDay();
   const { todaysMenu } = useTodaysMenu(menuInitData);
   const { data } = useMenu(menuInitData);
@@ -32,16 +128,8 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
 
   return (
     <div className={styles.space}>
+      <HeadCommon />
       <Head>
-        <title>Restaurang med bra mat</title>
-        <meta
-          name="description"
-          content={`Veckans mat på en bra lunchrestaurang`}
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1"
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -52,24 +140,6 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap"
         />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
       <p className={styles.fadeIntro}>
@@ -79,9 +149,7 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
       <div className={styles.crawlContainer}>
         <div className={styles.crawl}>
           <header className={styles.titleBlock}>
-            <p className={styles.episode}>
-              Episod V · {today.formattedDate}
-            </p>
+            <p className={styles.episode}>Episod V · {today.formattedDate}</p>
             <h1 className={styles.logo}>
               <span>Dagens</span>
               <span>Meny</span>
@@ -93,14 +161,12 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
               <>
                 <p>
                   Det är en period av oroligheter i lunchrummet. Magar kurrar,
-                  mikrovågsugnen är upptagen, och en hungrig hop söker
-                  näring. Ur skuggorna träder dagens kockar fram med löften
-                  om mättnad och smak.
+                  mikrovågsugnen är upptagen, och en hungrig hop söker näring.
+                  Ur skuggorna träder dagens kockar fram med löften om mättnad
+                  och smak.
                 </p>
 
-                <p>
-                  Idag serveras följande rätter i restaurangens stora sal:
-                </p>
+                <p>Idag serveras följande rätter i restaurangens stora sal:</p>
 
                 {todaysMenu?.courses?.map((course) => (
                   <p key={course.dish} className={styles.dishParagraph}>
@@ -137,21 +203,31 @@ const Home: NextPage<{ menuInitData?: WeekMenuType }> = ({ menuInitData }) => {
                   );
                 })}
 
-                <p className={styles.outro}>
-                  Må mättnaden vara med dig.
-                </p>
+                <p className={styles.outro}>Må mättnaden vara med dig.</p>
               </>
             ) : (
               <p className={styles.closed}>
-                Restaurangen är stängd. Galaxen vilar och kockarna har
-                dragit sig tillbaka till sina kvarter. Återvänd nästa
-                vardag för nya äventyr i lunchsalen.
+                Restaurangen är stängd. Galaxen vilar och kockarna har dragit
+                sig tillbaka till sina kvarter. Återvänd nästa vardag för nya
+                äventyr i lunchsalen.
               </p>
             )}
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const Home: NextPage<Props> = ({ menuInitData }) => {
+  const today = useCurrentDay();
+  const isMayTheFourth =
+    today.date.getMonth() === 4 && today.date.getDate() === 4;
+
+  return isMayTheFourth ? (
+    <StarWarsView menuInitData={menuInitData} />
+  ) : (
+    <NormalView menuInitData={menuInitData} />
   );
 };
 
